@@ -25,7 +25,7 @@ class LongButton extends StatelessWidget {
           size: 16,
           color: Colors.white,
         ),
-        onTap: () => onTap,
+        onTap: () => onTap!(),
         tileColor: Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),

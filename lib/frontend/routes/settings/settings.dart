@@ -1,22 +1,44 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Settings extends StatelessWidget {
   const Settings({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-          child: Row(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
             children: [
-              Text(
-                "No settings available.",
-                style: Theme.of(context).textTheme.bodyMedium,
+              const SizedBox(
+                height: 8,
               ),
+              Text(
+                "Account",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "Sign out",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                trailing: Icon(
+                  Icons.logout,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                onTap: () => FirebaseAuth.instance.signOut(),
+                tileColor: Theme.of(context).colorScheme.secondary,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4)),
+              ),
+              const Divider(),
             ],
           ),
         ),

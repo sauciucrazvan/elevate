@@ -13,6 +13,10 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
+  # Firebase Packages
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.9.0
+
   # Lottie ~ used for animations throughout the app
   lottie: ^2.6.0
 

@@ -1,5 +1,7 @@
-import 'package:elevate/frontend/config/palette.dart';
 import 'package:flutter/material.dart';
+
+import 'package:elevate/frontend/config/palette.dart';
+import 'package:elevate/frontend/routes/routes_handler.dart';
 
 class Elevate extends StatelessWidget {
   const Elevate({super.key});
@@ -10,7 +12,7 @@ class Elevate extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
-      home: Container(),
+      home: const RouteHandler(),
     );
   }
 }

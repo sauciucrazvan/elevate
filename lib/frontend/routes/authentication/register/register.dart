@@ -1,4 +1,4 @@
-import 'package:elevate/frontend/routes/authentication/register/register.dart';
+import 'package:elevate/frontend/routes/authentication/login/login.dart';
 import 'package:flutter/material.dart';
 
 import 'package:lottie/lottie.dart';
@@ -7,13 +7,15 @@ import 'package:elevate/frontend/widgets/text/field.dart';
 import 'package:elevate/frontend/widgets/marginals/header.dart';
 import 'package:elevate/frontend/widgets/buttons/long_button/long_button.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class Register extends StatelessWidget {
+  const Register({super.key});
 
   @override
   Widget build(BuildContext context) {
     TextEditingController emailTextController = TextEditingController();
     TextEditingController passwordTextController = TextEditingController();
+    TextEditingController confirmPasswordTextController =
+        TextEditingController();
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -23,11 +25,12 @@ class Login extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Animation
-          Lottie.asset("assets/animations/login.json", width: 128, height: 128),
+          Lottie.asset("assets/animations/register.json",
+              width: 128, height: 128),
 
           // Title
           Text(
-            "Welcome back to Elevate!\nYou've been missed!",
+            "Welcome to Elevate!\nFirst off, you need to create an account.",
             style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
@@ -47,13 +50,24 @@ class Login extends StatelessWidget {
           ),
 
           const SizedBox(
-            height: 8,
+            height: 4,
           ),
 
           // Password Text Field
           Field(
             textEditingController: passwordTextController,
             description: 'Password',
+            obscureText: true,
+          ),
+
+          const SizedBox(
+            height: 4,
+          ),
+
+          // Confirm Password Text Field
+          Field(
+            textEditingController: confirmPasswordTextController,
+            description: 'Confirm password',
             obscureText: true,
           ),
 
@@ -64,7 +78,7 @@ class Login extends StatelessWidget {
 
           // Login Button
           LongButton(
-            title: "Login",
+            title: "Register",
             icon: Icons.arrow_forward_ios,
             onTap: () {},
           ),
@@ -78,7 +92,7 @@ class Login extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Need an account?",
+                "Already have an account?",
                 style: TextStyle(
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                   fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
@@ -91,11 +105,11 @@ class Login extends StatelessWidget {
                 onTap: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Register(),
+                    builder: (context) => const Login(),
                   ),
                 ),
                 child: Text(
-                  "Let's create one!",
+                  "Proceed to login.",
                   style: TextStyle(
                     color: Theme.of(context).textTheme.bodyMedium?.color,
                     fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,

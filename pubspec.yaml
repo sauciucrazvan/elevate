@@ -13,6 +13,9 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
+  # Lottie ~ used for animations throughout the app
+  lottie: ^2.6.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -24,4 +27,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/
+    - assets/images/
+    - assets/animations/

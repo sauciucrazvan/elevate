@@ -47,7 +47,7 @@ class RouteHandlerState extends State<RouteHandler> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Image.asset(
-              "assets/AppIcon.png",
+              "assets/images/AppIcon.png",
               width: 32,
               height: 32,
             ),

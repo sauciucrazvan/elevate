@@ -1,0 +1,50 @@
+name: elevate
+description: Elevate is an upcoming secure chat app that does not store any user data for longer than 24 hours.
+version: 1.0.0+1
+
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+  # Customizing the app icon & splash screen for Android
+  flutter_native_splash: ^2.3.2
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/AppIcon.png"
+
+flutter_native_splash:
+  color: "#F1F1F9"
+  image: assets/SplashLogo.png
+  color_dark: "#333333"
+  image_dark: assets/SplashLogo.png
+
+  android_12:
+    color: "#F1F1F9"
+    image: assets/SplashLogo.png
+    color_dark: "#333333"
+    image_dark: assets/SplashLogo.png
+
+  web: false
+  android: true
+  ios: false
+
+flutter:
+
+  uses-material-design: true

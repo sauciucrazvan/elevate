@@ -4,8 +4,8 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   colorScheme: const ColorScheme.light(
     primary: Color(0xFF3498DB),
-    secondary: Color(0xFF757575),
-    background: Color(0xFFF5F5F5),
+    secondary: Color(0xFFD2D3DB),
+    background: Color(0xFFE4E5F1),
   ),
   textTheme: const TextTheme(
     bodySmall: TextStyle(color: Color(0xFF333333), fontSize: 12),

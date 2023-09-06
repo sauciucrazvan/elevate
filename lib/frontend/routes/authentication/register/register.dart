@@ -6,7 +6,7 @@ import 'package:elevate/frontend/widgets/text/field.dart';
 import 'package:elevate/frontend/widgets/marginals/header.dart';
 import 'package:elevate/frontend/widgets/buttons/long_button/long_button.dart';
 
-import 'package:elevate/backend/domains/authentication/authentication_service.dart';
+import 'package:elevate/backend/handlers/authentication/authentication_handler.dart';
 
 class Register extends StatefulWidget {
   final Function switchPages;
@@ -89,12 +89,12 @@ class _RegisterState extends State<Register> {
                 title: "Register",
                 icon: Icons.arrow_forward_ios,
                 onTap: () {
-                  try {
-                    AuthenticationService().signUp(
-                        emailTextController.text, passwordTextController.text);
-                  } catch (error) {
-                    throw Exception(error);
-                  }
+                  createAccount(
+                    context,
+                    emailTextController.text,
+                    passwordTextController.text,
+                    confirmPasswordTextController.text,
+                  );
                 },
               ),
 

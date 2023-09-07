@@ -6,6 +6,7 @@ class Field extends StatelessWidget {
   final bool obscureText;
   final int maxLength;
   final int maxLines;
+  final double padding;
 
   const Field({
     super.key,
@@ -14,18 +15,22 @@ class Field extends StatelessWidget {
     this.obscureText = false,
     this.maxLength = 64,
     this.maxLines = 1,
+    this.padding = 64,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 64.0),
+      padding: EdgeInsets.symmetric(horizontal: padding),
       child: TextField(
         controller: textEditingController,
         autocorrect: false,
         obscureText: obscureText,
+        maxLength: maxLength,
+        maxLines: maxLines,
         decoration: InputDecoration(
           hintText: description,
+          counterText: '',
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(4),

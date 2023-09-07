@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elevate/backend/functions/username/get_username.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:elevate/frontend/routes/chats/widgets/chat_bubble.dart';
+import 'package:elevate/frontend/routes/chats/widgets/chat_person.dart';
 
 class Chats extends StatelessWidget {
   const Chats({super.key});
@@ -66,11 +66,9 @@ class Chats extends StatelessWidget {
                       final username = userList[index]['name']!;
                       final uid = userList[index]['uid']!;
 
-                      return ChatBubble(
+                      return ChatPerson(
                         id: uid,
                         displayName: username,
-                        unreadMessages: false,
-                        pinnedConversation: false,
                       );
                     },
                   );

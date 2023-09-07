@@ -18,7 +18,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController nameTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
 
   @override
@@ -49,10 +49,10 @@ class _LoginState extends State<Login> {
                 child: const Divider(),
               ),
 
-              // Email Text Field
+              // Name Text Field
               Field(
-                textEditingController: emailTextController,
-                description: 'Email',
+                textEditingController: nameTextController,
+                description: 'Username',
               ),
 
               const SizedBox(
@@ -77,7 +77,7 @@ class _LoginState extends State<Login> {
                 icon: Icons.arrow_forward_ios,
                 onTap: () {
                   try {
-                    loginUser(context, emailTextController.text,
+                    loginUser(context, nameTextController.text,
                         passwordTextController.text);
                   } catch (error) {
                     throw Exception(error);

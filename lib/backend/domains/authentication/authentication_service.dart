@@ -54,7 +54,7 @@ class AuthenticationService {
       switch (error.code) {
         case "email-already-in-use":
           showElevatedNotification(
-              context, "The email adress is already in use.", Colors.red);
+              context, "The username is not available!", Colors.red);
           break;
         case "invalid-email":
           showElevatedNotification(context,

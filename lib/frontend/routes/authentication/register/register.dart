@@ -18,7 +18,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController nameTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
   final TextEditingController confirmPasswordTextController =
       TextEditingController();
@@ -51,10 +51,10 @@ class _RegisterState extends State<Register> {
                 child: const Divider(),
               ),
 
-              // Email Text Field
+              // Name Text Field
               Field(
-                textEditingController: emailTextController,
-                description: 'Email',
+                textEditingController: nameTextController,
+                description: 'Username',
               ),
 
               const SizedBox(
@@ -91,7 +91,7 @@ class _RegisterState extends State<Register> {
                 onTap: () {
                   createAccount(
                     context,
-                    emailTextController.text,
+                    nameTextController.text,
                     passwordTextController.text,
                     confirmPasswordTextController.text,
                   );

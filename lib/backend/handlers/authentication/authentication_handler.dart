@@ -1,20 +1,32 @@
-import 'package:elevate/backend/domains/authentication/authentication_service.dart';
 import 'package:flutter/material.dart';
+
+import 'package:elevate/backend/functions/username/safe_username.dart';
+import 'package:elevate/backend/functions/username/create_username.dart';
+import 'package:elevate/backend/domains/authentication/authentication_service.dart';
 
 import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 
-void loginUser(BuildContext context, String email, String password) {
-  if (email.isEmpty || password.isEmpty) {
+void loginUser(BuildContext context, String name, String password) {
+  if (name.isEmpty || password.isEmpty) {
     return showElevatedNotification(
         context, "You can't submit an empty field.", Colors.red);
   }
 
-  AuthenticationService().signIn(context, email, password);
+  if (!isUsernameSafe(name)) {
+    return showElevatedNotification(
+        context,
+        "Invalid username. Please use only letters, numbers and underscore.",
+        Colors.red);
+  }
+
+  String formattedName = createUsername(name);
+
+  AuthenticationService().signIn(context, formattedName, password);
 }
 
-void createAccount(BuildContext context, String email, String password,
+void createAccount(BuildContext context, String name, String password,
     String confirmPassword) {
-  if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+  if (name.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
     return showElevatedNotification(
         context, "You can't submit an empty field.", Colors.red);
   }
@@ -29,5 +41,14 @@ void createAccount(BuildContext context, String email, String password,
         context, "The passwords do not match!", Colors.red);
   }
 
-  AuthenticationService().signUp(context, email, password);
+  if (!isUsernameSafe(name)) {
+    return showElevatedNotification(
+        context,
+        "Invalid username. Please use only letters, numbers and underscore.",
+        Colors.red);
+  }
+
+  String formattedName = createUsername(name);
+
+  AuthenticationService().signUp(context, formattedName, password);
 }

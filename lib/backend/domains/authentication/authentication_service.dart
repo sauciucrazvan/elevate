@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:elevate/backend/functions/username/get_username.dart';
+import 'package:elevate/backend/handlers/users_handler.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,8 +53,10 @@ class AuthenticationService {
   Future<bool> signUp(
       BuildContext context, String email, String password) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      createUser(userCredential.user!.uid, getUsername(userCredential.user!)!);
 
       if (Navigator.of(context).canPop()) Navigator.pop(context);
 
@@ -78,19 +82,4 @@ class AuthenticationService {
       return false;
     }
   }
-
-  // Checking the connection (Debug)
-  // Future<void> checkFirebaseConnection() async {
-  //   try {
-  //     final user = _firebaseAuth.currentUser;
-
-  //     if (user != null) {
-  //       print('Connected as: ${user.uid}');
-  //     } else {
-  //       print('You\'re not connected.');
-  //     }
-  //   } catch (e) {
-  //     print('Error: $e');
-  //   }
-  // }
 }

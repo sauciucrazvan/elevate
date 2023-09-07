@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 
 class AuthenticationService {
   // Instance of Firebase Authentication
@@ -14,6 +16,8 @@ class AuthenticationService {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+
+      if (Navigator.of(context).canPop()) Navigator.pop(context);
 
       return true;
     } on FirebaseAuthException catch (error) {
@@ -38,6 +42,7 @@ class AuthenticationService {
         default:
           showElevatedNotification(context, error.code, Colors.red);
       }
+      if (Navigator.of(context).canPop()) Navigator.pop(context);
       return false;
     }
   }
@@ -48,6 +53,8 @@ class AuthenticationService {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      if (Navigator.of(context).canPop()) Navigator.pop(context);
 
       return true;
     } on FirebaseAuthException catch (error) {
@@ -67,6 +74,7 @@ class AuthenticationService {
         default:
           showElevatedNotification(context, error.code, Colors.red);
       }
+      if (Navigator.of(context).canPop()) Navigator.pop(context);
       return false;
     }
   }

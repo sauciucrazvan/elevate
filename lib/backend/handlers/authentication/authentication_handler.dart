@@ -15,9 +15,19 @@ void loginUser(BuildContext context, String name, String password) {
   if (!isUsernameSafe(name)) {
     return showElevatedNotification(
         context,
-        "Invalid username. Please use only letters, numbers and underscore.",
+        "Invalid username format: use only letters, numbers and underscore.",
         Colors.red);
   }
+
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (context) => Center(
+      child: CircularProgressIndicator(
+        color: Theme.of(context).colorScheme.primary,
+      ),
+    ),
+  );
 
   String formattedName = createUsername(name);
 
@@ -47,6 +57,16 @@ void createAccount(BuildContext context, String name, String password,
         "Invalid username. Please use only letters, numbers and underscore.",
         Colors.red);
   }
+
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (context) => Center(
+      child: CircularProgressIndicator(
+        color: Theme.of(context).colorScheme.primary,
+      ),
+    ),
+  );
 
   String formattedName = createUsername(name);
 

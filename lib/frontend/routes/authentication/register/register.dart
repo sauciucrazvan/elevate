@@ -55,6 +55,7 @@ class _RegisterState extends State<Register> {
               Field(
                 textEditingController: nameTextController,
                 description: 'Username',
+                maxLength: 16,
               ),
 
               const SizedBox(

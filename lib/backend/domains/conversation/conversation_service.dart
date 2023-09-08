@@ -1,11 +1,12 @@
-import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 
 import 'package:elevate/backend/private_keys/keys.dart';
+
 import 'package:elevate/backend/functions/username/get_username.dart';
+import 'package:elevate/backend/functions/conversations/get_channelid.dart';
 
 class ConversationService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -18,13 +19,12 @@ class ConversationService {
     String? senderName = getUsername(firebaseAuth.currentUser!);
 
     // Channel ID determined by their sorted IDs
-    List ids = [senderId, receiverId];
-    ids.sort();
-    String channelId = ids.join(".");
+    String channelId = getChannelID(senderId, receiverId);
 
     // Encrypting the message
     final encrypter = encrypt.Encrypter(encrypt.AES(getEncryptionKey()));
-    final encryptedMessage = encrypter.encrypt(message, iv: IV.fromLength(8));
+    final encryptedMessage =
+        encrypter.encrypt(message, iv: encrypt.IV.fromLength(8));
 
     await firebaseFirestore
         .collection("channels")
@@ -37,6 +37,15 @@ class ConversationService {
       'message': encryptedMessage.base64,
       'date': DateTime.now()
     });
+  }
+
+  Future<void> deleteMessage(String channelId, String messageId) async {
+    await firebaseFirestore
+        .collection("channels")
+        .doc(channelId)
+        .collection("messages")
+        .doc(messageId)
+        .delete();
   }
 
   void deleteOldMessages(String channelId) {
@@ -58,9 +67,7 @@ class ConversationService {
   Query<Map<String, dynamic>> getConversation(
       String senderId, String receiverId) {
     // Channel ID determined by their sorted IDs
-    List ids = [senderId, receiverId];
-    ids.sort();
-    String channelId = ids.join(".");
+    String channelId = getChannelID(senderId, receiverId);
 
     deleteOldMessages(channelId);
 
@@ -74,6 +81,6 @@ class ConversationService {
   String decryptMessage(String encryptedMessage) {
     final encrypter = encrypt.Encrypter(encrypt.AES(getEncryptionKey()));
     return encrypter.decrypt(encrypt.Encrypted.fromBase64(encryptedMessage),
-        iv: IV.fromLength(8));
+        iv: encrypt.IV.fromLength(8));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:elevate/backend/functions/conversations/get_channelid.dart';
 import 'package:elevate/frontend/routes/conversation/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
 
@@ -51,10 +52,15 @@ class Messages extends StatelessWidget {
           scrollController.jumpTo(scrollController.position.maxScrollExtent);
         });
 
+        String channelId = getChannelID(senderId, receiverId);
+
         return ListView(
           controller: scrollController,
           children: snapshot.data!.docs
-              .map((document) => ChatBubble(document: document))
+              .map((document) => ChatBubble(
+                    document: document,
+                    channelId: channelId,
+                  ))
               .toList(),
         );
       },

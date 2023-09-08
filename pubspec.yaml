@@ -21,6 +21,9 @@ dependencies:
   # Encrypting the messages with AES
   encrypt: ^5.0.1
 
+  # Sliables ~ used for deleteing the messages
+  flutter_slidable: ^3.0.0
+
   # Lottie ~ used for animations throughout the app
   lottie: ^2.6.0
 

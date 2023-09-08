@@ -29,9 +29,7 @@ void loginUser(BuildContext context, String name, String password) {
     ),
   );
 
-  String formattedName = createUsername(name);
-
-  AuthenticationService().signIn(context, formattedName, password);
+  AuthenticationService().signIn(context, createUsername(name), password);
 }
 
 void createAccount(BuildContext context, String name, String password,
@@ -68,7 +66,5 @@ void createAccount(BuildContext context, String name, String password,
     ),
   );
 
-  String formattedName = createUsername(name);
-
-  AuthenticationService().signUp(context, formattedName, password);
+  AuthenticationService().signUp(context, createUsername(name), password);
 }

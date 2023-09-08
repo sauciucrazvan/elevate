@@ -50,7 +50,7 @@ class _ChatPersonState extends State<ChatPerson> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.displayName,
+                      "@${widget.displayName}",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],

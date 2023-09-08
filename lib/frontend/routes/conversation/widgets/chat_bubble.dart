@@ -1,3 +1,4 @@
+import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,8 +30,17 @@ class ChatBubble extends StatelessWidget {
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
             icon: Icons.delete,
-            onPressed: (context) =>
-                ConversationService().deleteMessage(channelId, document.id),
+            onPressed: (context) => showDialog(
+              context: context,
+              builder: (context) => ConfirmDialog(
+                title:
+                    "Are you sure you want to continue deleting this message?\nThis action cannot be undone!",
+                confirm: () {
+                  ConversationService().deleteMessage(channelId, document.id);
+                  Navigator.pop(context);
+                },
+              ),
+            ),
           ),
         ],
       ),

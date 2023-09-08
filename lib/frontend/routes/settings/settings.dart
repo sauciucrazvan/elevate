@@ -1,7 +1,10 @@
-import 'package:elevate/backend/functions/username/get_username.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
+
+import 'package:elevate/backend/functions/username/get_username.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -41,7 +44,16 @@ class Settings extends StatelessWidget {
                   Icons.logout,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                onTap: () => FirebaseAuth.instance.signOut(),
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => ConfirmDialog(
+                    title: "Are you sure you want to logout?",
+                    confirm: () {
+                      FirebaseAuth.instance.signOut();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
                 tileColor: Theme.of(context).colorScheme.secondary,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4)),

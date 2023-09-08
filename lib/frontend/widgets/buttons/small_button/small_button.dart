@@ -23,7 +23,7 @@ class SmallButton extends StatelessWidget {
       ),
       child: Icon(
         icon,
-        color: Theme.of(context).textTheme.bodyMedium!.color,
+        color: Colors.white,
       ),
     );
   }

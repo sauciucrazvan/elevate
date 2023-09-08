@@ -57,7 +57,7 @@ class Messages extends StatelessWidget {
         return ListView(
           controller: scrollController,
           children: snapshot.data!.docs
-              .map((document) => ChatBubble(
+              .map((document) => ChatBubbles(
                     document: document,
                     channelId: channelId,
                   ))

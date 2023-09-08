@@ -1,6 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elevate/backend/functions/username/get_username.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:encrypt/encrypt.dart' as encrypt;
+
+import 'package:elevate/backend/private_keys/keys.dart';
+import 'package:elevate/backend/functions/username/get_username.dart';
 
 class ConversationService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -17,6 +22,10 @@ class ConversationService {
     ids.sort();
     String channelId = ids.join(".");
 
+    // Encrypting the message
+    final encrypter = encrypt.Encrypter(encrypt.AES(getEncryptionKey()));
+    final encryptedMessage = encrypter.encrypt(message, iv: IV.fromLength(8));
+
     await firebaseFirestore
         .collection("channels")
         .doc(channelId)
@@ -25,7 +34,7 @@ class ConversationService {
       'senderId': senderId,
       'senderName': senderName ?? "Unknown",
       'receiverId': receiverId,
-      'message': message,
+      'message': encryptedMessage.base64,
       'date': DateTime.now()
     });
   }
@@ -60,5 +69,11 @@ class ConversationService {
         .doc(channelId)
         .collection("messages")
         .orderBy("date", descending: false);
+  }
+
+  String decryptMessage(String encryptedMessage) {
+    final encrypter = encrypt.Encrypter(encrypt.AES(getEncryptionKey()));
+    return encrypter.decrypt(encrypt.Encrypted.fromBase64(encryptedMessage),
+        iv: IV.fromLength(8));
   }
 }

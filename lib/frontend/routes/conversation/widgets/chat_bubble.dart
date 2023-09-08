@@ -1,3 +1,4 @@
+import 'package:elevate/backend/domains/conversation/conversation_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,7 +33,7 @@ class ChatBubble extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                data['message'],
+                ConversationService().decryptMessage(data['message']),
               ),
             ),
           ],

@@ -41,6 +41,12 @@ class AuthenticationService {
           showElevatedNotification(context,
               "The email adress you've provided is invalid.", Colors.red);
           break;
+        case "network-request-failed":
+          showElevatedNotification(
+              context,
+              "Please connect to the internet in order to use the app.",
+              Colors.red);
+          break;
         default:
           showElevatedNotification(context, error.code, Colors.red);
       }
@@ -74,6 +80,12 @@ class AuthenticationService {
         case "weak-password":
           showElevatedNotification(
               context, "The password you chose is to weak.", Colors.red);
+          break;
+        case "network-request-failed":
+          showElevatedNotification(
+              context,
+              "Please connect to the internet in order to use the app.",
+              Colors.red);
           break;
         default:
           showElevatedNotification(context, error.code, Colors.red);

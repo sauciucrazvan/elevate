@@ -88,7 +88,9 @@ class ChatBubble extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 ConversationService().decryptMessage(message),
-                style: const TextStyle(color: Colors.white),
+                style: sentByUser
+                    ? const TextStyle(color: Colors.white)
+                    : Theme.of(context).textTheme.bodyMedium,
               ),
             ),
           ],

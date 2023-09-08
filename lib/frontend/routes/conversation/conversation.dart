@@ -26,6 +26,7 @@ class _ConversationState extends State<Conversation> {
     final ConversationService conversationService = ConversationService();
 
     final TextEditingController messageController = TextEditingController();
+    final ScrollController scrollController = ScrollController();
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -54,6 +55,7 @@ class _ConversationState extends State<Conversation> {
               conversationService: conversationService,
               senderId: firebaseAuth.currentUser!.uid,
               receiverId: widget.receiverId,
+              scrollController: scrollController,
             ),
           ),
 

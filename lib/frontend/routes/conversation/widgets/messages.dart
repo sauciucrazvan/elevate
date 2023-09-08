@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 
 class Messages extends StatelessWidget {
   final ConversationService conversationService;
+  final ScrollController scrollController;
 
   final String senderId;
   final String receiverId;
@@ -15,6 +16,7 @@ class Messages extends StatelessWidget {
     required this.conversationService,
     required this.senderId,
     required this.receiverId,
+    required this.scrollController,
   });
 
   @override
@@ -45,7 +47,12 @@ class Messages extends StatelessWidget {
 
         if (!snapshot.hasData) return Container();
 
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        });
+
         return ListView(
+          controller: scrollController,
           children: snapshot.data!.docs
               .map((document) => ChatBubble(document: document))
               .toList(),

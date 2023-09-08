@@ -1,5 +1,7 @@
+import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 import 'package:flutter/material.dart';
 
+import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
@@ -16,24 +18,57 @@ class Settings extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               Text(
-                "Account",
+                "Application Settings",
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
-              const SizedBox(
-                height: 4,
+              const SizedBox(height: 4),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "About Elevate",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                trailing: Icon(
+                  Icons.info,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                onTap: () async {
+                  final Uri uri = Uri(
+                    scheme: 'https',
+                    host: "github.com",
+                    path: "/sauciucrazvan/elevate",
+                  );
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(
+                      uri,
+                      mode: LaunchMode.inAppWebView,
+                    );
+                  } else {
+                    // ignore: use_build_context_synchronously
+                    showElevatedNotification(context,
+                        "There was an error opening the URL.", Colors.red);
+                  }
+                },
+                tileColor: Theme.of(context).colorScheme.secondary,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4)),
               ),
+              const Divider(),
+              const SizedBox(height: 4),
+              Text(
+                "Account Settings",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const SizedBox(height: 4),
               Text(
                 "You're logged in as @${getUsername(FirebaseAuth.instance.currentUser)}",
                 style: Theme.of(context).textTheme.bodySmall,
               ),
-              const SizedBox(
-                height: 4,
-              ),
+              const SizedBox(height: 4),
               const Divider(),
               ListTile(
                 title: Text(

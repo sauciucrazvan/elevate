@@ -21,6 +21,9 @@ dependencies:
   # Encrypting the messages with AES
   encrypt: ^5.0.1
 
+  # URL Launcher
+  url_launcher: ^6.1.14
+
   # Sliables ~ used for deleteing the messages
   flutter_slidable: ^3.0.0
 

@@ -39,9 +39,24 @@ void createAccount(BuildContext context, String name, String password,
         context, "You can't submit an empty field.", Colors.red);
   }
 
+  if (name.length <= 3) {
+    return showElevatedNotification(
+        context, "Your username must have at least 4 characters.", Colors.red);
+  }
+
   if (password.length < 8) {
     return showElevatedNotification(context,
         "The password has to be at least 8 characters long.", Colors.red);
+  }
+
+  final regex =
+      RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[_@#$%^&+=!]).{8,}$');
+
+  if (!regex.hasMatch(password)) {
+    return showElevatedNotification(
+        context,
+        "Your password must contain at least an upper case letter, a lower case letter, a number and a special character (ex: _, &, +, etc)",
+        Colors.red);
   }
 
   if (password != confirmPassword) {

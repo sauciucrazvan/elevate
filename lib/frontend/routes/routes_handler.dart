@@ -31,28 +31,12 @@ class RouteHandlerState extends State<RouteHandler> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        leadingWidth: 256,
-        leading: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                _routes.keys.elementAt(_selectedRoute), // Page title
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ),
-          ],
+        title: Image.asset(
+          "assets/images/AppIcon.png",
+          width: 32,
+          height: 32,
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Image.asset(
-              "assets/images/AppIcon.png",
-              width: 32,
-              height: 32,
-            ),
-          ),
-        ],
+        centerTitle: true,
         backgroundColor: secondaryColor,
       ),
       body: PageView(
@@ -87,14 +71,12 @@ class RouteHandlerState extends State<RouteHandler> {
             ],
             onDestinationSelected: (index) => setState(
               () {
-                setState(() {
-                  _selectedRoute = index;
-                  pageController.animateToPage(
-                    _selectedRoute,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.decelerate,
-                  );
-                });
+                _selectedRoute = index;
+                pageController.animateToPage(
+                  _selectedRoute,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.decelerate,
+                );
               },
             ),
           ),

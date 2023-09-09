@@ -87,14 +87,12 @@ class RouteHandlerState extends State<RouteHandler> {
             ],
             onDestinationSelected: (index) => setState(
               () {
-                setState(() {
-                  _selectedRoute = index;
-                  pageController.animateToPage(
-                    _selectedRoute,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.decelerate,
-                  );
-                });
+                _selectedRoute = index;
+                pageController.animateToPage(
+                  _selectedRoute,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.decelerate,
+                );
               },
             ),
           ),

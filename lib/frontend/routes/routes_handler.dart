@@ -53,7 +53,6 @@ class RouteHandlerState extends State<RouteHandler> {
             ),
           ),
         ],
-        shadowColor: Colors.transparent,
         backgroundColor: secondaryColor,
       ),
       body: PageView(

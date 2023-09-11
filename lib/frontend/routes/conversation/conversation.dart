@@ -1,3 +1,4 @@
+import 'package:elevate/backend/functions/username/get_username.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,10 +11,8 @@ import 'package:elevate/frontend/widgets/buttons/leading_button/back_button.dart
 
 class Conversation extends StatefulWidget {
   final String receiverName;
-  final String receiverId;
 
-  const Conversation(
-      {super.key, required this.receiverName, required this.receiverId});
+  const Conversation({super.key, required this.receiverName});
 
   @override
   State<Conversation> createState() => _ConversationState();
@@ -54,8 +53,8 @@ class _ConversationState extends State<Conversation> {
           Expanded(
             child: Messages(
               conversationService: conversationService,
-              senderId: firebaseAuth.currentUser!.uid,
-              receiverId: widget.receiverId,
+              senderName: getUsername(firebaseAuth.currentUser!)!,
+              receiverName: widget.receiverName,
               scrollController: scrollController,
             ),
           ),
@@ -79,7 +78,7 @@ class _ConversationState extends State<Conversation> {
                     messageController.clear();
 
                     await conversationService.sendMessage(
-                        widget.receiverId, text);
+                        widget.receiverName, text);
                   },
                   child: const Padding(
                     padding: EdgeInsets.symmetric(

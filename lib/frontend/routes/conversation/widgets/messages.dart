@@ -9,22 +9,23 @@ class Messages extends StatelessWidget {
   final ConversationService conversationService;
   final ScrollController scrollController;
 
-  final String senderId;
-  final String receiverId;
+  final String senderName;
+  final String receiverName;
 
   const Messages({
     super.key,
     required this.conversationService,
-    required this.senderId,
-    required this.receiverId,
+    required this.senderName,
+    required this.receiverName,
     required this.scrollController,
   });
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream:
-          conversationService.getConversation(senderId, receiverId).snapshots(),
+      stream: conversationService
+          .getConversation(senderName, receiverName)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -52,7 +53,7 @@ class Messages extends StatelessWidget {
           scrollController.jumpTo(scrollController.position.maxScrollExtent);
         });
 
-        String channelId = getChannelID(senderId, receiverId);
+        String channelId = getChannelID(senderName, receiverName);
 
         return ListView(
           controller: scrollController,

@@ -12,14 +12,13 @@ class ConversationService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  Future<void> sendMessage(String receiverId, String message) async {
+  Future<void> sendMessage(String receiverName, String message) async {
     if (message.isEmpty) return;
 
-    String senderId = firebaseAuth.currentUser!.uid;
     String? senderName = getUsername(firebaseAuth.currentUser!);
 
     // Channel ID determined by their sorted IDs
-    String channelId = getChannelID(senderId, receiverId);
+    String channelId = getChannelID(senderName ?? "Unknown", receiverName);
 
     // Encrypting the message
     final encrypter = encrypt.Encrypter(encrypt.AES(getEncryptionKey()));
@@ -31,9 +30,7 @@ class ConversationService {
         .doc(channelId)
         .collection("messages")
         .add({
-      'senderId': senderId,
       'senderName': senderName ?? "Unknown",
-      'receiverId': receiverId,
       'message': encryptedMessage.base64,
       'date': DateTime.now()
     });
@@ -48,10 +45,10 @@ class ConversationService {
         .delete();
   }
 
-  void deleteOldMessages(String channelId) {
+  void deleteOldMessages(String channelId) async {
     final cutoffDate = DateTime.now().subtract(const Duration(days: 1));
 
-    firebaseFirestore
+    await firebaseFirestore
         .collection("channels")
         .doc(channelId)
         .collection("messages")
@@ -65,9 +62,9 @@ class ConversationService {
   }
 
   Query<Map<String, dynamic>> getConversation(
-      String senderId, String receiverId) {
+      String senderName, String receiverName) {
     // Channel ID determined by their sorted IDs
-    String channelId = getChannelID(senderId, receiverId);
+    String channelId = getChannelID(senderName, receiverName);
 
     deleteOldMessages(channelId);
 

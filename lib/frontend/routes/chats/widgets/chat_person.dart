@@ -27,7 +27,6 @@ class _ChatPersonState extends State<ChatPerson> {
             MaterialPageRoute(
               builder: (context) => Conversation(
                 receiverName: widget.displayName,
-                receiverId: widget.id,
               ),
             ),
           );

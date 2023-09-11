@@ -1,5 +1,5 @@
-String getChannelID(String senderId, String receiverId) {
-  List ids = [senderId, receiverId];
+String getChannelID(String senderName, String receiverName) {
+  List ids = [senderName, receiverName];
   ids.sort();
   String channelId = ids.join(".");
   return channelId;

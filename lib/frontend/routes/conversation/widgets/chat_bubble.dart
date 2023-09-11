@@ -1,3 +1,4 @@
+import 'package:elevate/backend/functions/username/get_username.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +20,7 @@ class ChatBubbles extends StatelessWidget {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
     bool sentByUser =
-        data['senderId'] == FirebaseAuth.instance.currentUser!.uid;
+        data['senderName'] == getUsername(FirebaseAuth.instance.currentUser);
 
     String message = data['message'];
 

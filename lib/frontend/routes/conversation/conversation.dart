@@ -5,8 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:elevate/backend/domains/conversation/conversation_service.dart';
 
-import 'package:elevate/frontend/widgets/text/field.dart';
 import 'package:elevate/frontend/routes/conversation/widgets/messages.dart';
+
+import 'package:elevate/frontend/widgets/text/field_with_button.dart';
 import 'package:elevate/frontend/widgets/buttons/leading_button/back_button.dart';
 
 class Conversation extends StatefulWidget {
@@ -65,29 +66,19 @@ class _ConversationState extends State<Conversation> {
             child: Row(
               children: [
                 Expanded(
-                  child: Field(
-                    description: 'Message',
+                  child: ButtonedField(
+                    description: 'Message...',
                     textEditingController: messageController,
-                    maxLength: 128,
-                    padding: 4.0,
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    String text = messageController.text;
-                    messageController.clear();
+                    maxLength: 256,
+                    padding: 8.0,
+                    icon: Icons.arrow_forward_ios_rounded,
+                    onPressed: () async {
+                      String text = messageController.text;
+                      messageController.clear();
 
-                    await conversationService.sendMessage(
-                        widget.receiverName, text);
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 16.0,
-                    ),
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.white,
-                    ),
+                      await conversationService.sendMessage(
+                          widget.receiverName, text);
+                    },
                   ),
                 ),
               ],

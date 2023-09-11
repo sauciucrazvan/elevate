@@ -54,47 +54,31 @@ class ChatBubbles extends StatelessWidget {
               ],
             )
           : null,
-      child: ChatBubble(
-        message: message,
-        sentByUser: sentByUser,
-      ),
-    );
-  }
-}
-
-class ChatBubble extends StatelessWidget {
-  final String message;
-  final bool sentByUser;
-
-  const ChatBubble(
-      {super.key, required this.message, required this.sentByUser});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
-      child: Container(
-        alignment: sentByUser ? Alignment.centerRight : Alignment.centerLeft,
-        child: Column(
-          crossAxisAlignment:
-              sentByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: sentByUser
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.secondary,
-                borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
+        child: Container(
+          alignment: sentByUser ? Alignment.centerRight : Alignment.centerLeft,
+          child: Column(
+            crossAxisAlignment:
+                sentByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: sentByUser
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  ConversationService().decryptMessage(message),
+                  style: sentByUser
+                      ? const TextStyle(color: Colors.white)
+                      : Theme.of(context).textTheme.bodyMedium,
+                ),
               ),
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                ConversationService().decryptMessage(message),
-                style: sentByUser
-                    ? const TextStyle(color: Colors.white)
-                    : Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

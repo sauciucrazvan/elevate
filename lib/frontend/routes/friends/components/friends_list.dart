@@ -1,12 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elevate/backend/functions/username/get_username.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:elevate/frontend/routes/chats/widgets/chat_person.dart';
 
-class Chats extends StatelessWidget {
-  const Chats({super.key});
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:elevate/backend/functions/username/get_username.dart';
+
+import 'package:elevate/frontend/routes/friends/widgets/friend.dart';
+
+class FriendsList extends StatefulWidget {
+  const FriendsList({super.key});
+
+  @override
+  State<FriendsList> createState() => _FriendsListState();
+}
+
+class _FriendsListState extends State<FriendsList> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,7 +30,7 @@ class Chats extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  "Conversations",
+                  "Friends",
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
@@ -30,7 +38,7 @@ class Chats extends StatelessWidget {
                 stream: FirebaseFirestore.instance
                     .collection('users')
                     .doc(getUsername(FirebaseAuth.instance.currentUser))
-                    .collection("friends")
+                    .collection('friends')
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
@@ -42,7 +50,7 @@ class Chats extends StatelessWidget {
                   }
 
                   if (!snapshot.hasData) {
-                    return const Text("You don't have any friends!");
+                    return const Text("No friends poor boy lol");
                   }
 
                   final currentUid =
@@ -63,8 +71,8 @@ class Chats extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final username = userList[index]['name']!;
 
-                      return ChatPerson(
-                        displayName: username,
+                      return Friend(
+                        friendName: username,
                       );
                     },
                   );

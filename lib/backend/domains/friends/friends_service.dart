@@ -114,6 +114,18 @@ class FriendsService {
     return querySnapshot.size;
   }
 
+  Future<int> getFriendsCount() async {
+    String username = getUsername(firebaseAuth.currentUser)!;
+
+    QuerySnapshot querySnapshot = await firebaseFirestore
+        .collection("users")
+        .doc(username)
+        .collection("friends")
+        .get();
+
+    return querySnapshot.size;
+  }
+
   Stream<Map<String, dynamic>> getRequestsStream() {
     String username = getUsername(firebaseAuth.currentUser)!;
 

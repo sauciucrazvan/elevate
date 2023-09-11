@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:elevate/backend/domains/friends/friends_service.dart';
 import 'package:elevate/frontend/routes/friends/sub_pages/view_requests.dart';
 
-class RequestsCounter extends StatelessWidget {
+class RequestsCounter extends StatefulWidget {
   const RequestsCounter({super.key});
 
+  @override
+  State<RequestsCounter> createState() => _RequestsCounterState();
+}
+
+class _RequestsCounterState extends State<RequestsCounter> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

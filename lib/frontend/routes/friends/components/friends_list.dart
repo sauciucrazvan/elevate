@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:elevate/backend/domains/friends/friends_service.dart';
 import 'package:elevate/backend/functions/username/get_username.dart';
 
 import 'package:elevate/frontend/routes/friends/widgets/friend.dart';
@@ -35,11 +35,7 @@ class _FriendsListState extends State<FriendsList> {
                 ),
               ),
               StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(getUsername(FirebaseAuth.instance.currentUser))
-                    .collection('friends')
-                    .snapshots(),
+                stream: FriendsService().getFriendsStream(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     throw Exception(snapshot.error);

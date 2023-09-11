@@ -1,4 +1,5 @@
 import 'package:elevate/backend/domains/friends/friends_service.dart';
+import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 
 class Friend extends StatelessWidget {
@@ -35,7 +36,17 @@ class Friend extends StatelessWidget {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () => FriendsService().removeFriend(friendName),
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => ConfirmDialog(
+                    title:
+                        "Are you sure you want to remove @$friendName as your friend?\n\nHe will not be notified but your conversation is going to be deleted.",
+                    confirm: () {
+                      FriendsService().removeFriend(friendName);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
                 child: const SizedBox(
                   width: 25,
                   child: Icon(

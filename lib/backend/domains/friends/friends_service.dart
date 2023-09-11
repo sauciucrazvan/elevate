@@ -147,6 +147,14 @@ class FriendsService {
     });
   }
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getFriendsStream() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(getUsername(FirebaseAuth.instance.currentUser))
+        .collection('friends')
+        .snapshots();
+  }
+
   void declineFriendRequest(String senderName) async {
     String username = getUsername(firebaseAuth.currentUser)!;
 

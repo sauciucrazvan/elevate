@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:elevate/backend/functions/conversations/get_channelid.dart';
 import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class FriendsService {
     if (senderName == receiverName) return;
 
     DocumentReference userDocRef =
-        firebaseFirestore.collection("users").doc(receiverName);
+        firebaseFirestore.collection('users').doc(receiverName);
 
     try {
       DocumentSnapshot docSnapshot = await userDocRef.get();
@@ -52,9 +53,9 @@ class FriendsService {
         }
 
         await firebaseFirestore
-            .collection("users")
+            .collection('users')
             .doc(receiverName)
-            .collection("requests")
+            .collection('requests')
             .doc(senderName)
             .set({'sentAt': DateTime.now().toString()});
 
@@ -74,9 +75,9 @@ class FriendsService {
   Future<bool> checkIfIsFriendAlready(
       String senderName, String receiverName) async {
     DocumentSnapshot docSnapshotSender = await firebaseFirestore
-        .collection("users")
+        .collection('users')
         .doc(receiverName)
-        .collection("friends")
+        .collection('friends')
         .doc(senderName)
         .get();
 
@@ -86,16 +87,16 @@ class FriendsService {
   Future<bool> checkIfFriendRequestExists(
       String senderName, String receiverName) async {
     DocumentSnapshot docSnapshotSender = await firebaseFirestore
-        .collection("users")
+        .collection('users')
         .doc(receiverName)
-        .collection("requests")
+        .collection('requests')
         .doc(senderName)
         .get();
 
     DocumentSnapshot docSnapshotReceiver = await firebaseFirestore
-        .collection("users")
+        .collection('users')
         .doc(senderName)
-        .collection("requests")
+        .collection('requests')
         .doc(receiverName)
         .get();
 
@@ -106,9 +107,9 @@ class FriendsService {
     String username = getUsername(firebaseAuth.currentUser)!;
 
     QuerySnapshot querySnapshot = await firebaseFirestore
-        .collection("users")
+        .collection('users')
         .doc(username)
-        .collection("requests")
+        .collection('requests')
         .get();
 
     return querySnapshot.size;
@@ -118,9 +119,9 @@ class FriendsService {
     String username = getUsername(firebaseAuth.currentUser)!;
 
     QuerySnapshot querySnapshot = await firebaseFirestore
-        .collection("users")
+        .collection('users')
         .doc(username)
-        .collection("friends")
+        .collection('friends')
         .get();
 
     return querySnapshot.size;
@@ -130,9 +131,9 @@ class FriendsService {
     String username = getUsername(firebaseAuth.currentUser)!;
 
     Stream<QuerySnapshot> querySnapshotStream = firebaseFirestore
-        .collection("users")
+        .collection('users')
         .doc(username)
-        .collection("requests")
+        .collection('requests')
         .snapshots();
 
     return querySnapshotStream.map((querySnapshot) {
@@ -150,9 +151,9 @@ class FriendsService {
     String username = getUsername(firebaseAuth.currentUser)!;
 
     await firebaseFirestore
-        .collection("users")
+        .collection('users')
         .doc(username)
-        .collection("requests")
+        .collection('requests')
         .doc(senderName)
         .delete();
   }
@@ -165,17 +166,47 @@ class FriendsService {
     String date = DateTime.now().toString();
 
     await firebaseFirestore
-        .collection("users")
+        .collection('users')
         .doc(username)
-        .collection("friends")
+        .collection('friends')
         .doc(senderName)
         .set({'addedAt': date});
 
     await firebaseFirestore
-        .collection("users")
+        .collection('users')
         .doc(senderName)
-        .collection("friends")
+        .collection('friends')
         .doc(username)
         .set({'addedAt': date});
+  }
+
+  void removeFriend(String friendName) async {
+    String username = getUsername(firebaseAuth.currentUser)!;
+
+    String channelId = getChannelID(username, friendName);
+
+    await firebaseFirestore
+        .collection('channels')
+        .doc(channelId)
+        .collection('messages')
+        .get()
+        .then((document) => {
+              for (QueryDocumentSnapshot doc in document.docs)
+                {doc.reference.delete()}
+            });
+
+    await firebaseFirestore
+        .collection('users')
+        .doc(username)
+        .collection('friends')
+        .doc(friendName)
+        .delete();
+
+    await firebaseFirestore
+        .collection('users')
+        .doc(friendName)
+        .collection('friends')
+        .doc(username)
+        .delete();
   }
 }

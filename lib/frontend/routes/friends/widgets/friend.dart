@@ -1,3 +1,4 @@
+import 'package:elevate/backend/domains/friends/friends_service.dart';
 import 'package:flutter/material.dart';
 
 class Friend extends StatelessWidget {
@@ -33,9 +34,15 @@ class Friend extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              const Icon(
-                Icons.delete,
-                color: Colors.red,
+              GestureDetector(
+                onTap: () => FriendsService().removeFriend(friendName),
+                child: const SizedBox(
+                  width: 25,
+                  child: Icon(
+                    Icons.person_remove,
+                    color: Colors.red,
+                  ),
+                ),
               ),
             ],
           ),

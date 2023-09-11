@@ -1,16 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:elevate/backend/functions/username/get_username.dart';
-import 'package:elevate/backend/handlers/users_handler.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 
 class AuthenticationService {
-  // Instance of Firebase Authentication
+  // Instances of Firebase
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   // Sign in
   Future<bool> signIn(
@@ -59,10 +59,13 @@ class AuthenticationService {
   Future<bool> signUp(
       BuildContext context, String email, String password) async {
     try {
-      UserCredential userCredential = await _firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
 
-      createUser(userCredential.user!.uid, getUsername(userCredential.user!)!);
+      await _firebaseFirestore
+          .collection('users')
+          .doc(email.substring(0, email.indexOf("@")))
+          .set({'registeredAt': DateTime.now()});
 
       if (Navigator.of(context).canPop()) Navigator.pop(context);
 

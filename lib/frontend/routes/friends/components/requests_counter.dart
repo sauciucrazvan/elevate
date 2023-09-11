@@ -47,8 +47,14 @@ class _RequestsCounterState extends State<RequestsCounter> {
                   FutureBuilder(
                     future: FriendsService().getRequestsCount(),
                     builder: (context, snapshot) {
+                      int friends = 0;
+
+                      if (snapshot.hasData && snapshot.data != null) {
+                        friends = snapshot.data!;
+                      }
+
                       return Text(
-                        snapshot.data.toString(),
+                        friends.toString(),
                         style: Theme.of(context).textTheme.bodyMedium,
                       );
                     },

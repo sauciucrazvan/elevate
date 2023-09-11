@@ -1,10 +1,10 @@
-import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 import 'package:flutter/material.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
+import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 
 import 'package:elevate/backend/functions/username/get_username.dart';
 

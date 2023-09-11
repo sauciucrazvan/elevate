@@ -4,9 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:elevate/frontend/routes/chats/widgets/chat_person.dart';
 
-class Chats extends StatelessWidget {
+class Chats extends StatefulWidget {
   const Chats({super.key});
 
+  @override
+  State<Chats> createState() => _ChatsState();
+}
+
+class _ChatsState extends State<Chats> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,7 +27,7 @@ class Chats extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  "Conversations",
+                  "Contacts",
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),

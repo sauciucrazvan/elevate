@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -79,5 +81,43 @@ class ConversationService {
     final encrypter = encrypt.Encrypter(encrypt.AES(getEncryptionKey()));
     return encrypter.decrypt(encrypt.Encrypted.fromBase64(encryptedMessage),
         iv: encrypt.IV.fromLength(8));
+  }
+
+  Stream<Set<String>?> getLastMessageTextStream(String channelId) {
+    final streamController = StreamController<Set<String>?>();
+
+    final query = firebaseFirestore
+        .collection("channels")
+        .doc(channelId)
+        .collection("messages")
+        .orderBy("date", descending: true)
+        .limit(1);
+
+    final subscription = query.snapshots().listen((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        final lastMessageDoc = querySnapshot.docs.first;
+        final lastMessageData = lastMessageDoc.data();
+        final messageSender = lastMessageData['senderName'] as String;
+        final encryptedMessage = lastMessageData['message'] as String;
+        final messageDate = lastMessageData['date'] as Timestamp;
+
+        final messageData = {
+          messageSender,
+          decryptMessage(encryptedMessage),
+          messageDate.toDate().toString()
+        };
+
+        streamController.add(messageData);
+      } else {
+        streamController.add(null);
+      }
+    });
+
+    // Închide stream-ul când nu mai este nevoie de el.
+    streamController.onCancel = () {
+      subscription.cancel();
+    };
+
+    return streamController.stream;
   }
 }

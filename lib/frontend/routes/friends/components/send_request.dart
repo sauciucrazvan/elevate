@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:elevate/frontend/widgets/buttons/small_button/small_button.dart';
-import 'package:elevate/frontend/widgets/text/field.dart';
+import 'package:elevate/frontend/widgets/text/field_with_button.dart';
 
 import 'package:elevate/backend/domains/friends/friends_service.dart';
 
@@ -27,21 +26,18 @@ class SendRequest extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Expanded(
-              child: Field(
+              child: ButtonedField(
                 textEditingController: textEditingController,
                 description: 'Username',
                 maxLength: 16,
                 padding: 4,
+                icon: Icons.group_add,
+                onPressed: () {
+                  String receiverName = textEditingController.text;
+                  textEditingController.clear();
+                  FriendsService().sendFriendRequest(context, receiverName);
+                },
               ),
-            ),
-            SmallButton(
-              icon: Icons.group_add,
-              color: Theme.of(context).colorScheme.primary,
-              pressed: () {
-                String receiverName = textEditingController.text;
-                textEditingController.clear();
-                FriendsService().sendFriendRequest(context, receiverName);
-              },
             ),
           ],
         ),

@@ -1,7 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elevate/backend/functions/username/get_username.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:elevate/backend/functions/username/get_username.dart';
+
 import 'package:elevate/frontend/routes/chats/widgets/chat_person.dart';
 
 class Chats extends StatefulWidget {

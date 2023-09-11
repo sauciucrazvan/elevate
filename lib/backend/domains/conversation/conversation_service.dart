@@ -113,7 +113,6 @@ class ConversationService {
       }
     });
 
-    // Închide stream-ul când nu mai este nevoie de el.
     streamController.onCancel = () {
       subscription.cancel();
     };

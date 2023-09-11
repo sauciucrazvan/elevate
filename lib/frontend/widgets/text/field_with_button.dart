@@ -32,7 +32,6 @@ class ButtonedField extends StatelessWidget {
         obscureText: obscureText,
         maxLength: maxLength,
         maxLines: maxLines,
-        onSubmitted: (text) => onPressed!(),
         decoration: InputDecoration(
           suffixIcon: GestureDetector(
             onTap: () => onPressed!(),

@@ -16,9 +16,9 @@ class Friends extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(height: 16),
-          RequestsCounter(),
-          SizedBox(height: 16),
           SendRequest(),
+          SizedBox(height: 16),
+          RequestsCounter(),
           SizedBox(height: 16),
           FriendsList(),
         ],

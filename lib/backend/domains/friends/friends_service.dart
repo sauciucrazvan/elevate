@@ -39,6 +39,18 @@ class FriendsService {
           return;
         }
 
+        bool isAlreadyFriend =
+            await checkIfIsFriendAlready(senderName, receiverName);
+
+        if (isAlreadyFriend) {
+          showElevatedNotification(
+            context,
+            "You're already friends with $receiverName!",
+            Colors.red,
+          );
+          return;
+        }
+
         await firebaseFirestore
             .collection("users")
             .doc(receiverName)
@@ -57,6 +69,18 @@ class FriendsService {
     } catch (error) {
       throw Exception(error);
     }
+  }
+
+  Future<bool> checkIfIsFriendAlready(
+      String senderName, String receiverName) async {
+    DocumentSnapshot docSnapshotSender = await firebaseFirestore
+        .collection("users")
+        .doc(receiverName)
+        .collection("friends")
+        .doc(senderName)
+        .get();
+
+    return docSnapshotSender.exists;
   }
 
   Future<bool> checkIfFriendRequestExists(
@@ -108,5 +132,38 @@ class FriendsService {
 
       return requestsMap;
     });
+  }
+
+  void declineFriendRequest(String senderName) async {
+    String username = getUsername(firebaseAuth.currentUser)!;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(username)
+        .collection("requests")
+        .doc(senderName)
+        .delete();
+  }
+
+  void acceptFriendRequest(String senderName) async {
+    String username = getUsername(firebaseAuth.currentUser)!;
+
+    declineFriendRequest(senderName);
+
+    String date = DateTime.now().toString();
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(username)
+        .collection("friends")
+        .doc(senderName)
+        .set({'addedAt': date});
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(senderName)
+        .collection("friends")
+        .doc(username)
+        .set({'addedAt': date});
   }
 }

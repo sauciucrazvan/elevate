@@ -1,3 +1,6 @@
+import 'package:elevate/backend/domains/friends/friends_service.dart';
+import 'package:elevate/frontend/widgets/buttons/small_button/small_button.dart';
+import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 import 'package:flutter/material.dart';
 
 class FriendTile extends StatefulWidget {
@@ -41,14 +44,30 @@ class _FriendTileState extends State<FriendTile> {
                 ],
               ),
               const Spacer(),
-              Icon(
-                Icons.check,
+              SmallButton(
+                icon: Icons.check,
                 color: Colors.lightGreen.shade800,
+                pressed: () {
+                  FriendsService().acceptFriendRequest(widget.displayName);
+                  showElevatedNotification(
+                    context,
+                    "You're now friends with ${widget.displayName}",
+                    Colors.lightGreen.shade800,
+                  );
+                },
               ),
               const SizedBox(width: 8),
-              const Icon(
-                Icons.close,
+              SmallButton(
+                icon: Icons.close,
                 color: Colors.red,
+                pressed: () {
+                  FriendsService().declineFriendRequest(widget.displayName);
+                  showElevatedNotification(
+                    context,
+                    "Declined the friend request from ${widget.displayName}",
+                    Colors.lightGreen.shade800,
+                  );
+                },
               ),
             ],
           ),

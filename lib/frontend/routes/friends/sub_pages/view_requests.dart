@@ -49,7 +49,7 @@ class ViewRequests extends StatelessWidget {
 
               Map<String, dynamic> requestsMap = snapshot.data ?? {};
 
-              if (requestsMap.isEmpty) return const Text("No friends");
+              if (requestsMap.isEmpty) return const Text("No friend requests");
 
               return Expanded(
                 child: ListView.builder(

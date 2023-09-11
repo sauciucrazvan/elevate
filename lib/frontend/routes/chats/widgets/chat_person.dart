@@ -2,12 +2,10 @@ import 'package:elevate/frontend/routes/conversation/conversation.dart';
 import 'package:flutter/material.dart';
 
 class ChatPerson extends StatefulWidget {
-  final String id;
   final String displayName;
 
   const ChatPerson({
     super.key,
-    required this.id,
     required this.displayName,
   });
 

@@ -50,11 +50,8 @@ class Chats extends StatelessWidget {
                   final userList = snapshot.data!.docs
                       .where((doc) => doc.id != currentUid)
                       .map((doc) {
-                    final data = doc.data();
-
                     return {
                       'name': doc.id,
-                      'uid': data['uid'] as String,
                     };
                   }).toList();
 
@@ -64,10 +61,8 @@ class Chats extends StatelessWidget {
                     itemCount: userList.length,
                     itemBuilder: (context, index) {
                       final username = userList[index]['name']!;
-                      final uid = userList[index]['uid']!;
 
                       return ChatPerson(
-                        id: uid,
                         displayName: username,
                       );
                     },

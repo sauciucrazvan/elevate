@@ -34,8 +34,8 @@ class _RequestsCounterState extends State<RequestsCounter> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const Spacer(),
-                    FutureBuilder(
-                      future: FriendsService().getRequestsCount(),
+                    StreamBuilder<int>(
+                      stream: FriendsService().getRequestsCountStream(),
                       builder: (context, snapshot) {
                         int friends = 0;
 
@@ -76,7 +76,7 @@ class _RequestsCounterState extends State<RequestsCounter> {
                     }
 
                     return SizedBox(
-                      height: requestsMap.length * 45,
+                      height: requestsMap.length * 50,
                       child: ListView.builder(
                         itemCount: requestsMap.length,
                         itemBuilder: (context, index) {

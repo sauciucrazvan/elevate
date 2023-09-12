@@ -1,8 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
 import 'package:elevate/backend/functions/conversations/get_channelid.dart';
 import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
-import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -103,28 +106,20 @@ class FriendsService {
     return docSnapshotSender.exists || docSnapshotReceiver.exists;
   }
 
-  Future<int> getRequestsCount() async {
+  Stream<int> getRequestsCountStream() {
     String username = getUsername(firebaseAuth.currentUser)!;
+    StreamController<int> controller = StreamController<int>();
 
-    QuerySnapshot querySnapshot = await firebaseFirestore
+    firebaseFirestore
         .collection('users')
         .doc(username)
         .collection('requests')
-        .get();
+        .snapshots()
+        .listen((QuerySnapshot querySnapshot) {
+      controller.add(querySnapshot.size);
+    });
 
-    return querySnapshot.size;
-  }
-
-  Future<int> getFriendsCount() async {
-    String username = getUsername(firebaseAuth.currentUser)!;
-
-    QuerySnapshot querySnapshot = await firebaseFirestore
-        .collection('users')
-        .doc(username)
-        .collection('friends')
-        .get();
-
-    return querySnapshot.size;
+    return controller.stream;
   }
 
   Stream<Map<String, dynamic>> getRequestsStream() {

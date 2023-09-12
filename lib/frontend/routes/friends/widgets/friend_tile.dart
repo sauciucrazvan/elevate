@@ -19,17 +19,14 @@ class _FriendTileState extends State<FriendTile> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondary,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 16.0,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -47,6 +44,7 @@ class _FriendTileState extends State<FriendTile> {
               SmallButton(
                 icon: Icons.check,
                 color: Colors.lightGreen.shade800,
+                sizeMultipler: 0.5,
                 pressed: () {
                   FriendsService().acceptFriendRequest(widget.displayName);
                   showElevatedNotification(
@@ -60,6 +58,7 @@ class _FriendTileState extends State<FriendTile> {
               SmallButton(
                 icon: Icons.close,
                 color: Colors.red,
+                sizeMultipler: 0.5,
                 pressed: () {
                   FriendsService().declineFriendRequest(widget.displayName);
                   showElevatedNotification(

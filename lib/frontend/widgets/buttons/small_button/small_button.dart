@@ -6,9 +6,14 @@ class SmallButton extends StatelessWidget {
   final IconData icon;
   final Function? pressed;
   final Color color;
+  final double sizeMultipler;
 
   const SmallButton(
-      {super.key, required this.icon, this.pressed, required this.color});
+      {super.key,
+      required this.icon,
+      this.pressed,
+      required this.color,
+      this.sizeMultipler = 2});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +21,9 @@ class SmallButton extends StatelessWidget {
       onPressed: () => pressed!(),
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 16,
+        padding: EdgeInsets.symmetric(
+          horizontal: 12.0 * sizeMultipler,
+          vertical: 8.0 * sizeMultipler,
         ),
       ),
       child: Icon(

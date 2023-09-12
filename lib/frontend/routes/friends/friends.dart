@@ -9,19 +9,21 @@ class Friends extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(height: 16),
-          SendRequest(),
-          SizedBox(height: 16),
-          RequestsCounter(),
-          SizedBox(height: 16),
-          FriendsList(),
-        ],
+    return const SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 16),
+            SendRequest(),
+            SizedBox(height: 16),
+            RequestsCounter(),
+            SizedBox(height: 16),
+            FriendsList(),
+          ],
+        ),
       ),
     );
   }

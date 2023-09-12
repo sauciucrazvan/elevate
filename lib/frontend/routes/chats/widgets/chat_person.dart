@@ -79,13 +79,13 @@ class _ChatPersonState extends State<ChatPerson> {
 
                         final lastMessage = snapshot.data;
 
-                        if (lastMessage == null) {
+                        if (lastMessage == null || lastMessage.isEmpty) {
                           return Container();
                         }
 
-                        final messageSender = lastMessage.elementAt(0);
-                        final messageText = lastMessage.elementAt(1);
-                        final messageDate = lastMessage.elementAt(2);
+                        final messageSender = lastMessage['senderName'];
+                        final messageText = lastMessage['message']!;
+                        final messageDate = lastMessage['date']!;
 
                         DateTime date = DateTime.parse(messageDate);
 

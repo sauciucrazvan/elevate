@@ -131,6 +131,7 @@ class FriendsService {
         .collection('users')
         .doc(getUsername(FirebaseAuth.instance.currentUser))
         .collection('friends')
+        .orderBy('lastMessage', descending: true)
         .snapshots();
   }
 
@@ -150,21 +151,21 @@ class FriendsService {
 
     declineFriendRequest(senderName);
 
-    String date = DateTime.now().toString();
+    DateTime date = DateTime.now();
 
     await firebaseFirestore
         .collection('users')
         .doc(username)
         .collection('friends')
         .doc(senderName)
-        .set({'addedAt': date});
+        .set({'addedAt': date, 'lastMessage': date});
 
     await firebaseFirestore
         .collection('users')
         .doc(senderName)
         .collection('friends')
         .doc(username)
-        .set({'addedAt': date});
+        .set({'addedAt': date, 'lastMessage': date});
   }
 
   void removeFriend(String friendName) async {

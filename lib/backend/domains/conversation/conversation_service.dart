@@ -18,6 +18,7 @@ class ConversationService {
     if (message.isEmpty) return;
 
     String? senderName = getUsername(firebaseAuth.currentUser!);
+    DateTime date = DateTime.now();
 
     // Channel ID determined by their sorted IDs
     String channelId = getChannelID(senderName ?? "Unknown", receiverName);
@@ -27,6 +28,7 @@ class ConversationService {
     final encryptedMessage =
         encrypter.encrypt(message, iv: encrypt.IV.fromLength(8));
 
+    // Adding it to the channel
     await firebaseFirestore
         .collection("channels")
         .doc(channelId)
@@ -34,8 +36,23 @@ class ConversationService {
         .add({
       'senderName': senderName ?? "Unknown",
       'message': encryptedMessage.base64,
-      'date': DateTime.now()
+      'date': date
     });
+
+    // Updating the last message date to every user
+    await firebaseFirestore
+        .collection("users")
+        .doc(senderName)
+        .collection("friends")
+        .doc(receiverName)
+        .update({'lastMessage': date});
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(receiverName)
+        .collection("friends")
+        .doc(senderName)
+        .update({'lastMessage': date});
   }
 
   Future<void> deleteMessage(String channelId, String messageId) async {
@@ -83,8 +100,8 @@ class ConversationService {
         iv: encrypt.IV.fromLength(8));
   }
 
-  Stream<Set<String>?> getLastMessageTextStream(String channelId) {
-    final streamController = StreamController<Set<String>?>();
+  Stream<Map<String, String>> getLastMessageTextStream(String channelId) {
+    final streamController = StreamController<Map<String, String>>();
 
     final query = firebaseFirestore
         .collection("channels")
@@ -102,14 +119,14 @@ class ConversationService {
         final messageDate = lastMessageData['date'] as Timestamp;
 
         final messageData = {
-          messageSender,
-          decryptMessage(encryptedMessage),
-          messageDate.toDate().toString()
+          'senderName': messageSender,
+          'message': decryptMessage(encryptedMessage),
+          'date': messageDate.toDate().toString()
         };
 
         streamController.add(messageData);
       } else {
-        streamController.add(null);
+        streamController.add({});
       }
     });
 

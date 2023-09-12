@@ -46,7 +46,7 @@ class _FriendsListState extends State<FriendsList> {
                   }
 
                   if (!snapshot.hasData) {
-                    return const Text("No friends poor boy lol");
+                    return Container();
                   }
 
                   final currentUid =

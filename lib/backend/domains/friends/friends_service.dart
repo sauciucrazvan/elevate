@@ -106,22 +106,6 @@ class FriendsService {
     return docSnapshotSender.exists || docSnapshotReceiver.exists;
   }
 
-  Stream<int> getRequestsCountStream() {
-    String username = getUsername(firebaseAuth.currentUser)!;
-    StreamController<int> controller = StreamController<int>();
-
-    firebaseFirestore
-        .collection('users')
-        .doc(username)
-        .collection('requests')
-        .snapshots()
-        .listen((QuerySnapshot querySnapshot) {
-      controller.add(querySnapshot.size);
-    });
-
-    return controller.stream;
-  }
-
   Stream<Map<String, dynamic>> getRequestsStream() {
     String username = getUsername(firebaseAuth.currentUser)!;
 

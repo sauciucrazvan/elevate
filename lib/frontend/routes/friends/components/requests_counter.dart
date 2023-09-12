@@ -1,8 +1,8 @@
+import 'package:elevate/backend/domains/friends/friends_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:elevate/frontend/widgets/toggable.dart';
 
-import 'package:elevate/backend/domains/friends/friends_service.dart';
 import 'package:elevate/frontend/routes/friends/widgets/friend_tile.dart';
 
 class RequestsCounter extends StatefulWidget {
@@ -34,13 +34,13 @@ class _RequestsCounterState extends State<RequestsCounter> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const Spacer(),
-                    StreamBuilder<int>(
-                      stream: FriendsService().getRequestsCountStream(),
+                    StreamBuilder(
+                      stream: FriendsService().getRequestsStream(),
                       builder: (context, snapshot) {
                         int friends = 0;
 
                         if (snapshot.hasData && snapshot.data != null) {
-                          friends = snapshot.data!;
+                          friends = snapshot.data!.length;
                         }
 
                         return Text(

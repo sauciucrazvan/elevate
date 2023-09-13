@@ -55,7 +55,12 @@ class ChatBubbles extends StatelessWidget {
             )
           : null,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
+        padding: EdgeInsets.only(
+          left: sentByUser ? 48.0 : 8.0,
+          right: sentByUser ? 8.0 : 48.0,
+          bottom: 4.0,
+          top: 4.0,
+        ),
         child: Container(
           alignment: sentByUser ? Alignment.centerRight : Alignment.centerLeft,
           child: Column(

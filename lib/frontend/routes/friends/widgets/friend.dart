@@ -1,7 +1,9 @@
-import 'package:elevate/backend/domains/friends/friends_service.dart';
-import 'package:elevate/backend/domains/pictures/avatar_service.dart';
-import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
 import 'package:flutter/material.dart';
+
+import 'package:elevate/backend/domains/friends/friends_service.dart';
+
+import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
+import 'package:elevate/frontend/widgets/pictures/avatar.dart';
 
 class Friend extends StatelessWidget {
   final String friendName;
@@ -25,29 +27,7 @@ class Friend extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CircleAvatar(
-                radius: 16,
-                child: FutureBuilder<String?>(
-                  future: AvatarService().getAvatar(friendName),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting ||
-                        snapshot.hasError ||
-                        snapshot.data == null) {
-                      return Image.asset('assets/images/AppIcon.png');
-                    }
-
-                    return Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(snapshot.data!),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              Avatar(username: friendName),
               const SizedBox(width: 8),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,

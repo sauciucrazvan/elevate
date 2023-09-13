@@ -2,6 +2,7 @@
 
 import 'package:elevate/backend/domains/pictures/avatar_service.dart';
 import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
+import 'package:elevate/frontend/widgets/pictures/avatar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,36 +31,9 @@ class _ProfileState extends State<Profile> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
-              CircleAvatar(
-                radius: 48,
-                child: StreamBuilder<void>(
-                  stream: avatarService.onAvatarUpdate,
-                  builder: (context, snapshot) {
-                    return FutureBuilder<String?>(
-                      future: avatarService.getAvatar(
-                        getUsername(FirebaseAuth.instance.currentUser)!,
-                      ),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                                ConnectionState.waiting ||
-                            snapshot.hasError ||
-                            snapshot.data == null) {
-                          return Image.asset('assets/images/AppIcon.png');
-                        }
-
-                        return Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(snapshot.data!),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+              Avatar(
+                username: getUsername(FirebaseAuth.instance.currentUser)!,
+                size: 48,
               ),
               const SizedBox(height: 8),
               Text(

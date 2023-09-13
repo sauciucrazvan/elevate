@@ -1,8 +1,10 @@
-import 'package:elevate/backend/domains/friends/friends_service.dart';
-import 'package:elevate/backend/domains/pictures/avatar_service.dart';
+import 'package:flutter/material.dart';
+
+import 'package:elevate/frontend/widgets/pictures/avatar.dart';
 import 'package:elevate/frontend/widgets/buttons/small_button/small_button.dart';
 import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
-import 'package:flutter/material.dart';
+
+import 'package:elevate/backend/domains/friends/friends_service.dart';
 
 class FriendTile extends StatefulWidget {
   final String displayName;
@@ -31,31 +33,7 @@ class _FriendTileState extends State<FriendTile> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CircleAvatar(
-                radius: 16,
-                child: FutureBuilder<String?>(
-                  future: AvatarService().getAvatar(
-                    widget.displayName,
-                  ),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting ||
-                        snapshot.hasError ||
-                        snapshot.data == null) {
-                      return Image.asset('assets/images/AppIcon.png');
-                    }
-
-                    return Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(snapshot.data!),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              Avatar(username: widget.displayName),
               const SizedBox(width: 8),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,

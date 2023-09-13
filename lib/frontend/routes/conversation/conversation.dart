@@ -1,13 +1,13 @@
-import 'package:elevate/backend/domains/pictures/avatar_service.dart';
-import 'package:elevate/backend/functions/username/get_username.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:elevate/backend/functions/username/get_username.dart';
 import 'package:elevate/backend/domains/conversation/conversation_service.dart';
 
 import 'package:elevate/frontend/routes/conversation/widgets/messages.dart';
 
+import 'package:elevate/frontend/widgets/pictures/avatar.dart';
 import 'package:elevate/frontend/widgets/text/field_with_button.dart';
 import 'package:elevate/frontend/widgets/buttons/leading_button/back_button.dart';
 
@@ -42,31 +42,7 @@ class _ConversationState extends State<Conversation> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 16,
-              child: FutureBuilder<String?>(
-                future: AvatarService().getAvatar(
-                  widget.receiverName,
-                ),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting ||
-                      snapshot.hasError ||
-                      snapshot.data == null) {
-                    return Image.asset('assets/images/AppIcon.png');
-                  }
-
-                  return Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage(snapshot.data!),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+            child: Avatar(username: widget.receiverName),
           ),
         ],
       ),

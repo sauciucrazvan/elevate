@@ -8,6 +8,15 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:elevate/backend/functions/username/get_username.dart';
 
 class AvatarService {
+  // Singleton class
+  static final AvatarService _instance = AvatarService._internal();
+
+  AvatarService._internal();
+
+  factory AvatarService() {
+    return _instance;
+  }
+
   final StreamController<void> _avatarUpdateController =
       StreamController<void>.broadcast();
   Stream<void> get onAvatarUpdate => _avatarUpdateController.stream;

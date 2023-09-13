@@ -103,6 +103,8 @@ class ConversationService {
   Stream<Map<String, String>> getLastMessageTextStream(String channelId) {
     final streamController = StreamController<Map<String, String>>();
 
+    deleteOldMessages(channelId);
+
     final query = firebaseFirestore
         .collection("channels")
         .doc(channelId)

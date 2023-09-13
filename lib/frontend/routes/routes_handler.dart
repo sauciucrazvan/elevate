@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:elevate/frontend/routes/chats/chats.dart';
 import 'package:elevate/frontend/routes/friends/friends.dart';
-import 'package:elevate/frontend/routes/settings/settings.dart';
+import 'package:elevate/frontend/routes/profile/profile.dart';
 
 class RouteHandler extends StatefulWidget {
   const RouteHandler({super.key});
@@ -19,7 +19,7 @@ class RouteHandlerState extends State<RouteHandler> {
   final Map<String, Widget> _routes = {
     "Friends": const Friends(),
     "Chats": const Chats(),
-    "Settings": const Settings(),
+    "Profile": const Profile(),
   };
 
   @override
@@ -65,8 +65,8 @@ class RouteHandlerState extends State<RouteHandler> {
                 label: "Chats",
               ),
               NavigationDestination(
-                icon: Icon(Icons.settings),
-                label: "Settings",
+                icon: Icon(Icons.person),
+                label: "Profile",
               ),
             ],
             onDestinationSelected: (index) => setState(

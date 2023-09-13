@@ -17,6 +17,8 @@ class AvatarService {
     return _instance;
   }
 
+  final Map<String, String> _avatarCache = {};
+
   final StreamController<void> _avatarUpdateController =
       StreamController<void>.broadcast();
   Stream<void> get onAvatarUpdate => _avatarUpdateController.stream;
@@ -35,6 +37,8 @@ class AvatarService {
 
     try {
       await imageReference.putFile(File(file.path));
+
+      _avatarCache[fileName] = await imageReference.getDownloadURL();
       _avatarUpdateController.add(null);
     } catch (error) {
       return false;
@@ -44,10 +48,23 @@ class AvatarService {
   }
 
   Future<String> getAvatar(String username) async {
+    if (_avatarCache.containsKey(username)) {
+      return _avatarCache[username]!;
+    }
+
     Reference reference = FirebaseStorage.instance.ref();
     Reference directoryReference = reference.child('avatars');
-    Reference imageReference = directoryReference.child(username);
 
-    return await imageReference.getDownloadURL();
+    String url;
+
+    try {
+      url = await directoryReference.child(username).getDownloadURL();
+    } catch (error) {
+      url = await directoryReference.child('default').getDownloadURL();
+    }
+
+    _avatarCache[username] = url;
+
+    return url;
   }
 }

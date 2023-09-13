@@ -31,9 +31,12 @@ class _ProfileState extends State<Profile> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
-              Avatar(
-                username: getUsername(FirebaseAuth.instance.currentUser)!,
-                size: 48,
+              StreamBuilder(
+                stream: AvatarService().onAvatarUpdate,
+                builder: (context, snapshot) => Avatar(
+                  username: getUsername(FirebaseAuth.instance.currentUser)!,
+                  size: 48,
+                ),
               ),
               const SizedBox(height: 8),
               Text(

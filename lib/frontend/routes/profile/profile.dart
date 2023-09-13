@@ -1,3 +1,5 @@
+import 'package:elevate/backend/domains/pictures/avatar_service.dart';
+import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,8 +21,29 @@ class Profile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 48,
+                child: FutureBuilder<String?>(
+                  future: AvatarService().getAvatar(
+                      getUsername(FirebaseAuth.instance.currentUser)!),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting ||
+                        snapshot.hasError ||
+                        snapshot.data == null) {
+                      return Image.asset('assets/images/AppIcon.png');
+                    }
+
+                    return Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(snapshot.data!),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
               const SizedBox(height: 8),
               Text(
@@ -47,7 +70,16 @@ class Profile extends StatelessWidget {
                         Icons.account_circle,
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                      onTap: () {},
+                      onTap: () async {
+                        bool completed = await AvatarService().pickAvatar();
+                        if (!completed) {
+                          // ignore: use_build_context_synchronously
+                          showElevatedNotification(
+                              context,
+                              "There was an error uploading your avatar.",
+                              Colors.red);
+                        }
+                      },
                       tileColor: Theme.of(context).colorScheme.secondary,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4)),

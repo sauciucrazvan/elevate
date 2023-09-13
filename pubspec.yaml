@@ -16,13 +16,14 @@ dependencies:
   # Firebase Packages
   firebase_core: ^2.15.0
   firebase_auth: ^4.9.0
+  firebase_storage: ^11.2.6
   cloud_firestore: ^4.9.1
 
   # Encrypting the messages with AES
   encrypt: ^5.0.1
 
-  # URL Launcher
-  url_launcher: ^6.1.14
+  # Image picker ~ used to change the avatar
+  image_picker: ^1.0.4
 
   # Sliables ~ used for deleteing the messages
   flutter_slidable: ^3.0.0

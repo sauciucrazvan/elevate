@@ -8,8 +8,15 @@ import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
 
 import 'package:elevate/backend/functions/username/get_username.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  AvatarService avatarService = AvatarService();
 
   @override
   Widget build(BuildContext context) {
@@ -23,24 +30,31 @@ class Profile extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 48,
-                child: FutureBuilder<String?>(
-                  future: AvatarService().getAvatar(
-                      getUsername(FirebaseAuth.instance.currentUser)!),
+                child: StreamBuilder<void>(
+                  stream: avatarService.onAvatarUpdate,
                   builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting ||
-                        snapshot.hasError ||
-                        snapshot.data == null) {
-                      return Image.asset('assets/images/AppIcon.png');
-                    }
-
-                    return Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(snapshot.data!),
-                          fit: BoxFit.cover,
-                        ),
+                    return FutureBuilder<String?>(
+                      future: avatarService.getAvatar(
+                        getUsername(FirebaseAuth.instance.currentUser)!,
                       ),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                                ConnectionState.waiting ||
+                            snapshot.hasError ||
+                            snapshot.data == null) {
+                          return Image.asset('assets/images/AppIcon.png');
+                        }
+
+                        return Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(snapshot.data!),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),
@@ -71,7 +85,7 @@ class Profile extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                       onTap: () async {
-                        bool completed = await AvatarService().pickAvatar();
+                        bool completed = await avatarService.pickAvatar();
                         if (!completed) {
                           // ignore: use_build_context_synchronously
                           showElevatedNotification(

@@ -35,18 +35,10 @@ class AvatarService {
   }
 
   Future<String> getAvatar(String username) async {
-    String url;
-
     Reference reference = FirebaseStorage.instance.ref();
     Reference directoryReference = reference.child('avatars');
     Reference imageReference = directoryReference.child(username);
 
-    try {
-      url = await imageReference.getDownloadURL();
-    } catch (error) {
-      return directoryReference.child('elevate').getDownloadURL();
-    }
-
-    return url;
+    return await imageReference.getDownloadURL();
   }
 }

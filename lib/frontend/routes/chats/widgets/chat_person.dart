@@ -1,4 +1,5 @@
 import 'package:elevate/backend/domains/conversation/conversation_service.dart';
+import 'package:elevate/backend/domains/pictures/avatar_service.dart';
 import 'package:elevate/backend/functions/conversations/get_channelid.dart';
 import 'package:elevate/backend/functions/limit_string.dart';
 import 'package:elevate/backend/functions/time_convertor.dart';
@@ -52,6 +53,32 @@ class _ChatPersonState extends State<ChatPerson> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                CircleAvatar(
+                  radius: 16,
+                  child: FutureBuilder<String?>(
+                    future: AvatarService().getAvatar(
+                      widget.displayName,
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting ||
+                          snapshot.hasError ||
+                          snapshot.data == null) {
+                        return Image.asset('assets/images/AppIcon.png');
+                      }
+
+                      return Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(snapshot.data!),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,

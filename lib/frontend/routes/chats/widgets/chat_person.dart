@@ -119,7 +119,7 @@ class _ChatPersonState extends State<ChatPerson> {
                         return Row(
                           children: [
                             Text(
-                              "$messageSender: ${limitString(messageText, 32)} ⦁ ${convertTime(date)}",
+                              "$messageSender: ${limitString(messageText, 24)} ⦁ ${convertTime(date)}",
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ],

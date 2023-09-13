@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:elevate/backend/domains/pictures/avatar_service.dart';
 import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 import 'package:flutter/material.dart';
@@ -87,11 +89,17 @@ class _ProfileState extends State<Profile> {
                       onTap: () async {
                         bool completed = await avatarService.pickAvatar();
                         if (!completed) {
-                          // ignore: use_build_context_synchronously
                           showElevatedNotification(
-                              context,
-                              "There was an error uploading your avatar.",
-                              Colors.red);
+                            context,
+                            "There was an error uploading your avatar.",
+                            Colors.red,
+                          );
+                        } else {
+                          showElevatedNotification(
+                            context,
+                            "Avatar changed successfully.",
+                            Colors.lightGreen.shade800,
+                          );
                         }
                       },
                       tileColor: Theme.of(context).colorScheme.secondary,

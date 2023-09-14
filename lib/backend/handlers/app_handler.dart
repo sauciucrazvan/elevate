@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:elevate/frontend/config/palette.dart';
 
-import 'package:elevate/backend/domains/authentication/authentication_gateway.dart';
+import 'package:elevate/backend/domains/application/maintenance.dart';
 
 class Elevate extends StatelessWidget {
   const Elevate({super.key});
@@ -13,7 +13,7 @@ class Elevate extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
-      home: const AuthenticationGateway(),
+      home: const MaintenanceGateway(),
     );
   }
 }

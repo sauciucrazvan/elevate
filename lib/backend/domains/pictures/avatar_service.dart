@@ -39,7 +39,7 @@ class AvatarService {
       return null;
     }
 
-    final resizedImage = img.copyResize(image, width: 128, height: 128);
+    final resizedImage = img.copyResize(image, width: 256, height: 256);
 
     final compressedBytes = img.encodeJpg(resizedImage, quality: 75);
 

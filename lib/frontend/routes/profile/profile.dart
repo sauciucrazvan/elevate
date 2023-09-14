@@ -1,14 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'package:elevate/backend/domains/pictures/avatar_service.dart';
-import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
-import 'package:elevate/frontend/widgets/pictures/avatar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:elevate/frontend/widgets/pictures/avatar.dart';
 import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
 
+import 'package:elevate/backend/domains/pictures/avatar_service.dart';
 import 'package:elevate/backend/functions/username/get_username.dart';
 
 class Profile extends StatefulWidget {
@@ -19,8 +16,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  AvatarService avatarService = AvatarService();
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -64,22 +59,7 @@ class _ProfileState extends State<Profile> {
                           Icons.account_circle,
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                        onTap: () async {
-                          bool completed = await avatarService.pickAvatar();
-                          if (!completed) {
-                            showElevatedNotification(
-                              context,
-                              "There was an error uploading your avatar.",
-                              Colors.red,
-                            );
-                          } else {
-                            showElevatedNotification(
-                              context,
-                              "Avatar changed successfully.",
-                              Colors.lightGreen.shade800,
-                            );
-                          }
-                        },
+                        onTap: () => AvatarService().changeAvatar(context),
                         tileColor: Theme.of(context).colorScheme.secondary,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4)),

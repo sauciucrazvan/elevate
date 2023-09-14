@@ -1,11 +1,19 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import 'package:image/image.dart' as img;
+
 import 'package:elevate/backend/functions/username/get_username.dart';
+
+import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 
 class AvatarService {
   // Singleton class
@@ -23,6 +31,28 @@ class AvatarService {
       StreamController<void>.broadcast();
   Stream<void> get onAvatarUpdate => _avatarUpdateController.stream;
 
+  Future<File?> resizeAndCheckSize(File file, int maxSizeInBytes) async {
+    final bytes = await file.readAsBytes();
+    final image = img.decodeImage(Uint8List.fromList(bytes));
+
+    if (image == null) {
+      return null;
+    }
+
+    final resizedImage = img.copyResize(image, width: 128, height: 128);
+
+    final compressedBytes = img.encodeJpg(resizedImage, quality: 75);
+
+    if (compressedBytes.length > maxSizeInBytes) {
+      return null;
+    }
+
+    final resizedFile = File('${file.path}.jpg');
+    await resizedFile.writeAsBytes(compressedBytes);
+
+    return resizedFile;
+  }
+
   Future<bool> pickAvatar() async {
     ImagePicker imagePicker = ImagePicker();
     XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -36,7 +66,15 @@ class AvatarService {
     Reference imageReference = directoryReference.child(fileName);
 
     try {
-      await imageReference.putFile(File(file.path));
+      const maxSizeInBytes = 1 * 1024 * 1024;
+      final resizedFile =
+          await resizeAndCheckSize(File(file.path), maxSizeInBytes);
+
+      if (resizedFile == null) {
+        return false;
+      }
+
+      await imageReference.putFile(resizedFile);
 
       _avatarCache[fileName] = await imageReference.getDownloadURL();
       _avatarUpdateController.add(null);
@@ -45,6 +83,24 @@ class AvatarService {
     }
 
     return true;
+  }
+
+  void changeAvatar(BuildContext context) async {
+    bool successfullyChanged = await pickAvatar();
+
+    if (!successfullyChanged) {
+      showElevatedNotification(
+        context,
+        "There was an error uploading your avatar. The image might be too big.",
+        Colors.red,
+      );
+    } else {
+      showElevatedNotification(
+        context,
+        "Avatar changed successfully.",
+        Colors.lightGreen.shade800,
+      );
+    }
   }
 
   Future<String> getAvatar(String username) async {

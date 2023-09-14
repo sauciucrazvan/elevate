@@ -25,13 +25,13 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Column(
               children: [
+                const SizedBox(height: 25),
                 StreamBuilder(
                   stream: AvatarService().onAvatarUpdate,
                   builder: (context, snapshot) => Avatar(

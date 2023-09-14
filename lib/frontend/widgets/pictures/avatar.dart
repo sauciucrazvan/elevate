@@ -15,6 +15,7 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       radius: size,
       child: FutureBuilder<String?>(
         future: AvatarService().getAvatar(username),

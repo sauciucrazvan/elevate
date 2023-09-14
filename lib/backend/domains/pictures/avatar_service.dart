@@ -61,6 +61,10 @@ class AvatarService {
 
     String fileName = getUsername(FirebaseAuth.instance.currentUser)!;
 
+    if (fileName == "elevate") {
+      return false; // Can't change the @elevate account image
+    }
+
     Reference reference = FirebaseStorage.instance.ref();
     Reference directoryReference = reference.child('avatars');
     Reference imageReference = directoryReference.child(fileName);
@@ -91,7 +95,7 @@ class AvatarService {
     if (!successfullyChanged) {
       showElevatedNotification(
         context,
-        "There was an error uploading your avatar. The image might be too big.",
+        "There was an error uploading your avatar.",
         Colors.red,
       );
     } else {

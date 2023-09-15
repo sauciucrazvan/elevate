@@ -1,3 +1,3 @@
 String createUsername(String username) {
-  return "$username@elevate.app";
+  return "$username@elevate.app".toLowerCase();
 }

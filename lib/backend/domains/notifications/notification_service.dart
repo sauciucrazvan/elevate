@@ -50,6 +50,11 @@ class NotificationService {
                   'title': title,
                   'body': body,
                 },
+                'android': {
+                  'notification': {
+                    'tag': title,
+                  },
+                },
                 'token': userToken,
               },
             },

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +17,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  var username = getUsername(FirebaseAuth.instance.currentUser)!;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -36,7 +39,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "@${getUsername(FirebaseAuth.instance.currentUser)}",
+                  "@$username",
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 50),
@@ -79,6 +82,11 @@ class _ProfileState extends State<Profile> {
                           builder: (context) => ConfirmDialog(
                             title: "Are you sure you want to logout?",
                             confirm: () {
+                              FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(username)
+                                  .update({'token': ''});
+
                               FirebaseAuth.instance.signOut();
                               Navigator.pop(context);
                             },

@@ -48,6 +48,6 @@ These dependencies combine to create a secure, user-friendly, and visually appea
 
 > ##### Elevate Chat Previews
 >
-> - [Interface Preview](https://i.imgur.com/7EL5LQp.png) #unavailable until release
+> - [Interface Preview](https://imgur.com/a/FsxmBzt) #elevate 1.0.0 on android (real device)
 
 Explore Elevate's sleek and secure chat interface, its robust AES encryption, avatar customization options, and engaging animations that make your chats come to life! 📸✨

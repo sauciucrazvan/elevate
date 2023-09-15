@@ -17,6 +17,8 @@ dependencies:
   firebase_core: ^2.15.0
   firebase_auth: ^4.9.0
   firebase_storage: ^11.2.6
+  firebase_analytics: ^10.4.5
+  firebase_messaging: ^14.6.7
   cloud_firestore: ^4.9.1
 
   # Encrypting the messages with AES
@@ -31,6 +33,8 @@ dependencies:
 
   # Lottie ~ used for animations throughout the app
   lottie: ^2.6.0
+
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_test:

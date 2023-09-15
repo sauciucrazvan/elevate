@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:elevate/backend/domains/notifications/notification_service.dart';
+import 'package:elevate/backend/functions/limit_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -53,6 +55,9 @@ class ConversationService {
         .collection("friends")
         .doc(senderName)
         .update({'lastMessage': date});
+
+    await NotificationService().sendNotification(
+        receiverName, "@$senderName", limitString(message, 24));
   }
 
   Future<void> deleteMessage(String channelId, String messageId) async {

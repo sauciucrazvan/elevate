@@ -57,7 +57,7 @@ class ConversationService {
         .update({'lastMessage': date});
 
     await NotificationService().sendNotification(
-        receiverName, "@$senderName", limitString(message, 24));
+        receiverName, "@$senderName", limitString(message, 32));
   }
 
   Future<void> deleteMessage(String channelId, String messageId) async {

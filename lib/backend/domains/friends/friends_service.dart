@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:elevate/backend/domains/notifications/notification_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:elevate/backend/functions/conversations/get_channelid.dart';
@@ -64,6 +65,9 @@ class FriendsService {
 
         showElevatedNotification(context,
             "Friend request sent to $receiverName!", Colors.lightGreen);
+
+        await NotificationService().sendNotification(receiverName,
+            "New friend request!", "@$senderName sent you a friend request!");
         return;
       } else {
         showElevatedNotification(
@@ -166,6 +170,9 @@ class FriendsService {
         .collection('friends')
         .doc(username)
         .set({'addedAt': date, 'lastMessage': date});
+
+    await NotificationService().sendNotification(
+        senderName, "New friend!", "@$username accepted your friend request!");
   }
 
   void removeFriend(String friendName) async {

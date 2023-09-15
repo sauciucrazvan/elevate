@@ -4,6 +4,12 @@
 
 Elevate is a secure chat app that prioritizes your privacy and data security. Say goodbye to worries about your personal information lingering on servers – Elevate ensures that user data is never stored for more than 24 hours. 📱🔒
 
+# Status
+[![Badge](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)](https://github.com/sauciucrazvan/elevate/releases)
+[![Badge](https://img.shields.io/github/forks/sauciucrazvan/elevate?style=for-the-badge)](https://github.com/sauciucrazvan/elevate/forks)
+[![Badge](https://img.shields.io/github/stars/sauciucrazvan/elevate?style=for-the-badge)](https://github.com/sauciucrazvan/elevate/stargazers)
+[![Badge](https://img.shields.io/github/issues/sauciucrazvan/elevate?style=for-the-badge)](https://github.com/sauciucrazvan/elevate/issues)
+
 ## Table of Contents
 - [Releases](https://github.com/sauciucrazvan/elevate/releases)
 - [Features](#features)

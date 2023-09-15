@@ -2,16 +2,16 @@
 
 import 'dart:async';
 
-import 'package:elevate/backend/domains/notifications/notification_service.dart';
 import 'package:flutter/material.dart';
 
-import 'package:elevate/backend/functions/conversations/get_channelid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:elevate/backend/functions/username/get_username.dart';
+import 'package:elevate/backend/functions/conversations/get_channelid.dart';
+import 'package:elevate/backend/domains/notifications/notification_service.dart';
 
 class FriendsService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;

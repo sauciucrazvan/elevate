@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:elevate/backend/functions/username/get_username.dart';
+import 'package:elevate/backend/domains/rate_limit/rate_limit_service.dart';
 import 'package:elevate/backend/domains/conversation/conversation_service.dart';
 
 import 'package:elevate/frontend/routes/conversation/widgets/messages.dart';
@@ -80,6 +81,8 @@ class _ConversationState extends State<Conversation> {
                     padding: 8.0,
                     icon: Icons.arrow_forward_ios_rounded,
                     onPressed: () async {
+                      if (!RateLimitService().canPerformAction(context)) return;
+
                       String text = messageController.text;
                       messageController.clear();
 

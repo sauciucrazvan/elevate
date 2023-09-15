@@ -6,6 +6,7 @@ import 'package:elevate/frontend/widgets/text/field.dart';
 import 'package:elevate/frontend/widgets/marginals/header.dart';
 import 'package:elevate/frontend/widgets/buttons/long_button/long_button.dart';
 
+import 'package:elevate/backend/domains/rate_limit/rate_limit_service.dart';
 import 'package:elevate/backend/handlers/authentication/authentication_handler.dart';
 
 class Login extends StatefulWidget {
@@ -76,6 +77,8 @@ class _LoginState extends State<Login> {
                 title: "Login",
                 icon: Icons.arrow_forward_ios,
                 onTap: () {
+                  if (!RateLimitService().canPerformAction(context)) return;
+
                   try {
                     loginUser(context, nameTextController.text,
                         passwordTextController.text);

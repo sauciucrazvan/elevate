@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:elevate/frontend/widgets/text/field_with_button.dart';
 
 import 'package:elevate/backend/domains/friends/friends_service.dart';
+import 'package:elevate/backend/domains/rate_limit/rate_limit_service.dart';
 
 class SendRequest extends StatelessWidget {
   const SendRequest({super.key});
@@ -28,6 +29,8 @@ class SendRequest extends StatelessWidget {
                   padding: 4,
                   icon: Icons.group_add,
                   onPressed: () {
+                    if (!RateLimitService().canPerformAction(context)) return;
+
                     String receiverName = textEditingController.text;
                     textEditingController.clear();
                     FriendsService().sendFriendRequest(context, receiverName);

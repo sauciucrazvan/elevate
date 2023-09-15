@@ -6,6 +6,7 @@ import 'package:elevate/frontend/widgets/text/field.dart';
 import 'package:elevate/frontend/widgets/marginals/header.dart';
 import 'package:elevate/frontend/widgets/buttons/long_button/long_button.dart';
 
+import 'package:elevate/backend/domains/rate_limit/rate_limit_service.dart';
 import 'package:elevate/backend/handlers/authentication/authentication_handler.dart';
 
 class Register extends StatefulWidget {
@@ -90,6 +91,8 @@ class _RegisterState extends State<Register> {
                 title: "Register",
                 icon: Icons.arrow_forward_ios,
                 onTap: () {
+                  if (!RateLimitService().canPerformAction(context)) return;
+
                   createAccount(
                     context,
                     nameTextController.text,

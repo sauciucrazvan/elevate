@@ -11,8 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
-
   # Firebase Packages
   firebase_core: ^2.15.0
   firebase_auth: ^4.9.0
@@ -24,8 +22,10 @@ dependencies:
   # Encrypting the messages with AES
   encrypt: ^5.0.1
 
-  # Image picker ~ used to change the avatar
+  # Image ~ used to resize & compress avatars
   image: ^4.0.17
+
+  # Image picker ~ used to change the avatar
   image_picker: ^1.0.4
 
   # Sliables ~ used for deleteing the messages
@@ -34,6 +34,7 @@ dependencies:
   # Lottie ~ used for animations throughout the app
   lottie: ^2.6.0
 
+  # HTTP ~ used to send FCM Requests for Notifications
   http: ^1.1.0
 
 dev_dependencies:

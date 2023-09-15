@@ -59,6 +59,8 @@ class AuthenticationService {
   Future<bool> signUp(
       BuildContext context, String email, String password) async {
     try {
+      if (Navigator.of(context).canPop()) Navigator.pop(context);
+
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
 
@@ -66,8 +68,6 @@ class AuthenticationService {
           .collection('users')
           .doc(email.substring(0, email.indexOf("@")))
           .set({'registeredAt': DateTime.now()});
-
-      if (Navigator.of(context).canPop()) Navigator.pop(context);
 
       return true;
     } on FirebaseAuthException catch (error) {

@@ -2,9 +2,10 @@
 
 # Elevate
 
-Elevate is an upcoming secure chat app that prioritizes your privacy and data security. Say goodbye to worries about your personal information lingering on servers – Elevate ensures that user data is never stored for more than 24 hours. 📱🔒
+Elevate is a secure chat app that prioritizes your privacy and data security. Say goodbye to worries about your personal information lingering on servers – Elevate ensures that user data is never stored for more than 24 hours. 📱🔒
 
 ## Table of Contents
+- [Releases](https://github.com/sauciucrazvan/elevate/releases)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Dependencies](#dependencies)

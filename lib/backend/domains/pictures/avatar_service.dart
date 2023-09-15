@@ -25,11 +25,15 @@ class AvatarService {
     return _instance;
   }
 
+  // Values
+
   final Map<String, String> _avatarCache = {};
 
   final StreamController<void> _avatarUpdateController =
       StreamController<void>.broadcast();
   Stream<void> get onAvatarUpdate => _avatarUpdateController.stream;
+
+  // Functions
 
   Future<File?> resizeAndCheckSize(File file, int maxSizeInBytes) async {
     final bytes = await file.readAsBytes();
@@ -39,7 +43,21 @@ class AvatarService {
       return null;
     }
 
-    final resizedImage = img.copyResize(image, width: 256, height: 256);
+    int targetWidth = 256;
+    int targetHeight = 256;
+
+    double scaleFactorWidth = targetWidth / image.width;
+    double scaleFactorHeight = targetHeight / image.height;
+
+    double scaleFactor = scaleFactorWidth < scaleFactorHeight
+        ? scaleFactorWidth
+        : scaleFactorHeight;
+
+    int newWidth = (image.width * scaleFactor).round();
+    int newHeight = (image.height * scaleFactor).round();
+
+    final resizedImage =
+        img.copyResize(image, width: newWidth, height: newHeight);
 
     final compressedBytes = img.encodeJpg(resizedImage, quality: 100);
 

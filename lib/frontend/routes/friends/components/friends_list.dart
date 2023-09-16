@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:elevate/backend/domains/friends/friends_service.dart';
@@ -89,6 +90,10 @@ class _FriendsListState extends State<FriendsList> {
                   final userList = snapshot.data!.docs.map((doc) {
                     return {
                       'name': doc.id,
+                      'days': DateTime.now()
+                          .difference(
+                              (doc.data()['addedAt'] as Timestamp).toDate())
+                          .inDays,
                     };
                   }).toList();
 
@@ -98,8 +103,12 @@ class _FriendsListState extends State<FriendsList> {
                     itemCount: userList.length,
                     itemBuilder: (context, index) {
                       final username = userList[index]['name'] ?? "unknown";
+                      final days = userList[index]['days'] ?? 0;
 
-                      return Friend(friendName: username);
+                      return Friend(
+                        friendName: username as String,
+                        friendDays: days as int,
+                      );
                     },
                   );
                 },

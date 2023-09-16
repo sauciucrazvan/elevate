@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elevate/backend/domains/friends/friends_service.dart';
 import 'package:elevate/frontend/routes/friends/widgets/friend.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,7 @@ class _SearchFriendsState extends State<SearchFriends> {
                   ),
                 ),
                 Icon(
-                  Icons.search,
+                  queryStatus ? Icons.list_rounded : Icons.search,
                   color: primaryColor,
                   size: 32,
                 ),
@@ -114,6 +115,11 @@ class _SearchFriendsState extends State<SearchFriends> {
                 final userList = snapshot.data!.docs.map((doc) {
                   return {
                     'name': doc.id,
+                    'days': DateTime.now()
+                        .difference(
+                            ((doc.data() as Map)['addedAt'] as Timestamp)
+                                .toDate())
+                        .inDays,
                   };
                 }).toList();
 
@@ -123,8 +129,12 @@ class _SearchFriendsState extends State<SearchFriends> {
                   itemCount: userList.length,
                   itemBuilder: (context, index) {
                     final username = userList[index]['name'] ?? "unknown";
+                    final days = userList[index]['days'] ?? 0;
 
-                    return Friend(friendName: username);
+                    return Friend(
+                      friendName: username as String,
+                      friendDays: days as int,
+                    );
                   },
                 );
               },

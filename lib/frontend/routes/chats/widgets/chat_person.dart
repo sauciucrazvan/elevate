@@ -14,10 +14,12 @@ import 'package:elevate/frontend/routes/conversation/conversation.dart';
 
 class ChatPerson extends StatefulWidget {
   final String displayName;
+  final int friendDays;
 
   const ChatPerson({
     super.key,
     required this.displayName,
+    required this.friendDays,
   });
 
   @override
@@ -38,9 +40,8 @@ class _ChatPersonState extends State<ChatPerson> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Conversation(
-                receiverName: widget.displayName,
-              ),
+              builder: (context) =>
+                  Conversation(receiverName: widget.displayName),
             ),
           );
         },
@@ -106,6 +107,29 @@ class _ChatPersonState extends State<ChatPerson> {
                         );
                       },
                     )
+                  ],
+                ),
+                const Spacer(),
+                Row(
+                  children: [
+                    Text(
+                      widget.friendDays.toString(),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(width: 2),
+                    const Icon(
+                      Icons.star_rounded,
+                      color: Colors.amber,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Container(height: 30, width: 1, color: Colors.grey),
+                    const SizedBox(width: 8),
+                    const Icon(
+                      Icons.messenger_outline_rounded,
+                      color: Colors.grey,
+                      size: 20,
+                    ),
                   ],
                 ),
               ],

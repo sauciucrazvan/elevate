@@ -10,8 +10,9 @@ import 'package:elevate/frontend/routes/conversation/conversation.dart';
 
 class Friend extends StatelessWidget {
   final String friendName;
+  final int friendDays;
 
-  const Friend({super.key, required this.friendName});
+  const Friend({super.key, required this.friendName, required this.friendDays});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,20 @@ class Friend extends StatelessWidget {
                   Text(
                     "@$friendName",
                     style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        friendDays.toString(),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      const SizedBox(width: 2),
+                      const Icon(
+                        Icons.star_rounded,
+                        color: Colors.amber,
+                        size: 12,
+                      ),
+                    ],
                   ),
                 ],
               ),

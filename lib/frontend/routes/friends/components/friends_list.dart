@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:elevate/backend/domains/friends/friends_service.dart';
+import 'package:elevate/backend/functions/username/safe_username.dart';
 
 import 'package:elevate/frontend/routes/friends/widgets/friend.dart';
+import 'package:elevate/frontend/routes/friends/components/search_friends.dart';
+
+import 'package:elevate/frontend/widgets/notifications/elevated_notification.dart';
+import 'package:elevate/frontend/widgets/text/field_with_button.dart';
 
 class FriendsList extends StatefulWidget {
   const FriendsList({super.key});
@@ -12,6 +17,8 @@ class FriendsList extends StatefulWidget {
 }
 
 class _FriendsListState extends State<FriendsList> {
+  TextEditingController textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,6 +38,39 @@ class _FriendsListState extends State<FriendsList> {
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
+              const SizedBox(height: 4),
+              ButtonedField(
+                textEditingController: textEditingController,
+                description: 'Search a friend...',
+                icon: Icons.search,
+                maxLength: 16,
+                padding: 0,
+                onPressed: () {
+                  String username = textEditingController.text.toLowerCase();
+
+                  // Checks
+                  if (username.isEmpty) return;
+
+                  if (username.length < 3) {
+                    return showElevatedNotification(
+                        context, "Search query too short!", Colors.red);
+                  }
+
+                  if (!isUsernameSafe(username)) {
+                    return showElevatedNotification(
+                        context, "Invalid username format!", Colors.red);
+                  }
+
+                  textEditingController.clear();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchFriends(username: username),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 4),
               StreamBuilder(
                 stream: FriendsService().getFriendsStream(),
                 builder: (context, snapshot) {

@@ -1,8 +1,8 @@
-import 'package:elevate/frontend/routes/friends/components/friends_list.dart';
-import 'package:elevate/frontend/routes/friends/components/requests_counter.dart';
 import 'package:flutter/material.dart';
 
 import 'package:elevate/frontend/routes/friends/components/send_request.dart';
+import 'package:elevate/frontend/routes/friends/components/requests_counter.dart';
+import 'package:elevate/frontend/routes/friends/components/friends_list.dart';
 
 class Friends extends StatelessWidget {
   const Friends({super.key});

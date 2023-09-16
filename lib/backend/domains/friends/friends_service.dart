@@ -204,4 +204,17 @@ class FriendsService {
         .doc(username)
         .delete();
   }
+
+  Stream<QuerySnapshot> searchFriends(String searchQuery) {
+    String username = getUsername(firebaseAuth.currentUser)!;
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(username)
+        .collection('friends')
+        .where(FieldPath.documentId, isGreaterThanOrEqualTo: searchQuery)
+        .where(FieldPath.documentId,
+            isLessThanOrEqualTo: '$searchQuery\uf8ff') // '\uf8ff' PUA CODE
+        .snapshots();
+  }
 }

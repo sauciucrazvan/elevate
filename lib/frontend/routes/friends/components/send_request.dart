@@ -17,6 +17,7 @@ class SendRequest extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Toggable(
+          opened: true,
           title: "Send a friend request!",
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

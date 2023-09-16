@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class Toggable extends StatefulWidget {
   final String title;
   final Widget child;
+  final bool opened;
 
-  const Toggable({super.key, required this.title, required this.child});
+  const Toggable({
+    super.key,
+    required this.title,
+    required this.child,
+    this.opened = false,
+  });
 
   @override
   State<Toggable> createState() => _ToggableState();
@@ -12,6 +18,13 @@ class Toggable extends StatefulWidget {
 
 class _ToggableState extends State<Toggable> {
   bool opened = false;
+
+  @override
+  void initState() {
+    opened = widget.opened;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -77,6 +77,7 @@ class _ConversationState extends State<Conversation> {
                   child: ButtonedField(
                     description: 'Message...',
                     textEditingController: messageController,
+                    withDivider: false,
                     maxLength: 256,
                     padding: 8.0,
                     icon: Icons.arrow_forward_ios_rounded,

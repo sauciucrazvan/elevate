@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +25,9 @@ class AvatarService {
   factory AvatarService() {
     return _instance;
   }
+
+  // Firebase instances
+  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   // Values
 
@@ -79,10 +83,6 @@ class AvatarService {
 
     String fileName = getUsername(FirebaseAuth.instance.currentUser)!;
 
-    if (fileName == "elevate") {
-      return false; // Can't change the @elevate account image
-    }
-
     Reference reference = FirebaseStorage.instance.ref();
     Reference directoryReference = reference.child('avatars');
     Reference imageReference = directoryReference.child(fileName);
@@ -99,6 +99,12 @@ class AvatarService {
       await imageReference.putFile(resizedFile);
 
       _avatarCache[fileName] = await imageReference.getDownloadURL();
+
+      await firebaseFirestore
+          .collection('users')
+          .doc(fileName)
+          .update({'avatar': _avatarCache[fileName]});
+
       _avatarUpdateController.add(null);
     } catch (error) {
       return false;
@@ -130,18 +136,19 @@ class AvatarService {
       return _avatarCache[username]!;
     }
 
-    Reference reference = FirebaseStorage.instance.ref();
-    Reference directoryReference = reference.child('avatars');
+    String defaultAvatar =
+        "https://firebasestorage.googleapis.com/v0/b/elevate-d8425.appspot.com/o/avatars%2Fdefault?alt=media";
+    String url = defaultAvatar;
 
-    String url;
+    DocumentSnapshot documentSnapshot =
+        await firebaseFirestore.collection('users').doc(username).get();
 
-    try {
-      url = await directoryReference.child(username).getDownloadURL();
-    } catch (error) {
-      url = await directoryReference.child('default').getDownloadURL();
+    if (documentSnapshot.exists && documentSnapshot.data() is Map) {
+      var data = documentSnapshot.data() as Map;
+
+      url = data['avatar'] ?? defaultAvatar;
+      _avatarCache[username] = url;
     }
-
-    _avatarCache[username] = url;
 
     return url;
   }

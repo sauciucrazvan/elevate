@@ -1,13 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:elevate/frontend/widgets/pictures/avatar.dart';
 import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
 
+import 'package:elevate/backend/domains/users/user_service.dart';
 import 'package:elevate/backend/domains/pictures/avatar_service.dart';
 import 'package:elevate/backend/functions/username/get_username.dart';
+import 'package:intl/intl.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -41,6 +43,36 @@ class _ProfileState extends State<Profile> {
                 Text(
                   "@$username",
                   style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  "Member since",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14,
+                  ),
+                ),
+                FutureBuilder(
+                  future: UserService().getRegisterDate(),
+                  builder: (context, snapshot) {
+                    DateTime registerDate = DateTime.now();
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (snapshot.hasData) {
+                      registerDate = snapshot.data!;
+                    }
+
+                    return Text(
+                      DateFormat("MMM dd yyyy, HH:mm").format(registerDate),
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 50),
                 Text(

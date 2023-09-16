@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:elevate/backend/domains/friends/friends_service.dart';
-import 'package:elevate/backend/functions/username/get_username.dart';
 
 import 'package:elevate/frontend/routes/friends/widgets/friend.dart';
 
@@ -22,7 +19,7 @@ class _FriendsListState extends State<FriendsList> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,19 +39,14 @@ class _FriendsListState extends State<FriendsList> {
                   }
 
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   if (!snapshot.hasData) {
                     return Container();
                   }
 
-                  final currentUid =
-                      getUsername(FirebaseAuth.instance.currentUser);
-
-                  final userList = snapshot.data!.docs
-                      .where((doc) => doc.id != currentUid)
-                      .map((doc) {
+                  final userList = snapshot.data!.docs.map((doc) {
                     return {
                       'name': doc.id,
                     };
@@ -65,11 +57,9 @@ class _FriendsListState extends State<FriendsList> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: userList.length,
                     itemBuilder: (context, index) {
-                      final username = userList[index]['name']!;
+                      final username = userList[index]['name'] ?? "unknown";
 
-                      return Friend(
-                        friendName: username,
-                      );
+                      return Friend(friendName: username);
                     },
                   );
                 },

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:elevate/backend/domains/friends/friends_service.dart';
 
-import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
 import 'package:elevate/frontend/widgets/pictures/avatar.dart';
+import 'package:elevate/frontend/widgets/dialogs/confirm_dialog.dart';
+import 'package:elevate/frontend/widgets/buttons/small_button/small_button.dart';
+
+import 'package:elevate/frontend/routes/conversation/conversation.dart';
 
 class Friend extends StatelessWidget {
   final String friendName;
@@ -22,7 +25,7 @@ class Friend extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 16.0,
-            vertical: 16.0,
+            vertical: 8.0,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -40,8 +43,26 @@ class Friend extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              GestureDetector(
-                onTap: () => showDialog(
+              SmallButton(
+                icon: Icons.messenger_rounded,
+                color: Colors.lightBlue,
+                sizeMultipler: 0.5,
+                pressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          Conversation(receiverName: friendName),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(width: 8),
+              SmallButton(
+                icon: Icons.person_remove,
+                color: Colors.red,
+                sizeMultipler: 0.5,
+                pressed: () => showDialog(
                   context: context,
                   builder: (context) => ConfirmDialog(
                     title:
@@ -50,13 +71,6 @@ class Friend extends StatelessWidget {
                       FriendsService().removeFriend(friendName);
                       Navigator.pop(context);
                     },
-                  ),
-                ),
-                child: const SizedBox(
-                  width: 25,
-                  child: Icon(
-                    Icons.person_remove,
-                    color: Colors.red,
                   ),
                 ),
               ),

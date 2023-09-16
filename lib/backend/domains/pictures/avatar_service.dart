@@ -147,9 +147,9 @@ class AvatarService {
       var data = documentSnapshot.data() as Map;
 
       url = data['avatar'] ?? defaultAvatar;
-      _avatarCache[username] = url;
     }
 
+    _avatarCache[username] = url; // Updates even if it's the default avatar
     return url;
   }
 }

@@ -1,6 +1,6 @@
 name: elevate
-description: Elevate is an upcoming secure chat app that does not store any user data for longer than 24 hours.
-version: 1.0.0+1
+description: Elevate is a secure chat app that does not store any user data for longer than 24 hours.
+version: 1.1.0
 
 publish_to: 'none'
 

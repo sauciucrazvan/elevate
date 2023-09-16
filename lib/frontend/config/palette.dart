@@ -18,8 +18,8 @@ ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   colorScheme: const ColorScheme.dark(
     primary: Color(0xFF3498DB),
-    secondary: Color(0xFF121212),
-    background: Color(0xFF202427),
+    secondary: Color(0xFF202427), // 0xFF202427
+    background: Color(0xFF121212), // 0xFF121212
   ),
   textTheme: const TextTheme(
     bodySmall: TextStyle(color: Color(0xFFFFFFFF), fontSize: 12),

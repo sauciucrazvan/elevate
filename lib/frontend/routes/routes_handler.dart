@@ -37,7 +37,8 @@ class RouteHandlerState extends State<RouteHandler> {
           height: 32,
         ),
         centerTitle: true,
-        backgroundColor: secondaryColor,
+        backgroundColor: backgroundColor,
+        shadowColor: Colors.transparent,
       ),
       body: PageView(
         controller: pageController,

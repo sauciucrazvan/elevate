@@ -33,7 +33,7 @@ class _ConversationState extends State<Conversation> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.background,
         leading: const BackLeadingButton(),
         title: Text(
           "@${widget.receiverName}",

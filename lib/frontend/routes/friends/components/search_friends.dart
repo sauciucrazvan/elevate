@@ -52,7 +52,6 @@ class _SearchFriendsState extends State<SearchFriends> {
   @override
   Widget build(BuildContext context) {
     Color primaryColor = Theme.of(context).colorScheme.primary;
-    Color secondaryColor = Theme.of(context).colorScheme.secondary;
     Color backgroundColor = Theme.of(context).colorScheme.background;
 
     String title = (queryStatus
@@ -69,7 +68,7 @@ class _SearchFriendsState extends State<SearchFriends> {
         ),
         centerTitle: true,
         leading: const BackLeadingButton(),
-        backgroundColor: secondaryColor,
+        backgroundColor: backgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

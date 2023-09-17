@@ -27,7 +27,7 @@ class ConversationService {
     String channelId = getChannelID(senderName ?? "Unknown", receiverName);
 
     // Encrypting the message
-    IV iv = encrypt.IV.fromLength(8);
+    IV iv = encrypt.IV.fromSecureRandom(16);
     final encrypter = encrypt.Encrypter(encrypt.AES(getEncryptionKey()));
     final encryptedMessage = encrypter.encrypt(message, iv: iv);
 

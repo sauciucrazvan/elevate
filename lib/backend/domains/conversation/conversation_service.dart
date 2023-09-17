@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:elevate/backend/domains/notifications/notification_service.dart';
 import 'package:elevate/backend/functions/limit_string.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -26,9 +27,9 @@ class ConversationService {
     String channelId = getChannelID(senderName ?? "Unknown", receiverName);
 
     // Encrypting the message
+    IV iv = encrypt.IV.fromLength(8);
     final encrypter = encrypt.Encrypter(encrypt.AES(getEncryptionKey()));
-    final encryptedMessage =
-        encrypter.encrypt(message, iv: encrypt.IV.fromLength(8));
+    final encryptedMessage = encrypter.encrypt(message, iv: iv);
 
     // Adding it to the channel
     await firebaseFirestore
@@ -38,6 +39,7 @@ class ConversationService {
         .add({
       'senderName': senderName ?? "Unknown",
       'message': encryptedMessage.base64,
+      'iv': iv.base64,
       'date': date
     });
 
@@ -99,10 +101,10 @@ class ConversationService {
         .orderBy("date", descending: false);
   }
 
-  String decryptMessage(String encryptedMessage) {
+  String decryptMessage(String encryptedMessage, String iv) {
     final encrypter = encrypt.Encrypter(encrypt.AES(getEncryptionKey()));
     return encrypter.decrypt(encrypt.Encrypted.fromBase64(encryptedMessage),
-        iv: encrypt.IV.fromLength(8));
+        iv: encrypt.IV.fromBase64(iv));
   }
 
   Stream<Map<String, String>> getLastMessageTextStream(String channelId) {
@@ -123,11 +125,12 @@ class ConversationService {
         final lastMessageData = lastMessageDoc.data();
         final messageSender = lastMessageData['senderName'] as String;
         final encryptedMessage = lastMessageData['message'] as String;
+        final iv = lastMessageData['iv'] as String;
         final messageDate = lastMessageData['date'] as Timestamp;
 
         final messageData = {
           'senderName': messageSender,
-          'message': decryptMessage(encryptedMessage),
+          'message': decryptMessage(encryptedMessage, iv),
           'date': messageDate.toDate().toString()
         };
 

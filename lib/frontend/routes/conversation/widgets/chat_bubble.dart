@@ -23,6 +23,7 @@ class ChatBubbles extends StatelessWidget {
         data['senderName'] == getUsername(FirebaseAuth.instance.currentUser);
 
     String message = data['message'];
+    String iv = data['iv'];
 
     return Slidable(
       endActionPane: sentByUser
@@ -76,7 +77,7 @@ class ChatBubbles extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  ConversationService().decryptMessage(message),
+                  ConversationService().decryptMessage(message, iv),
                   style: sentByUser
                       ? const TextStyle(color: Colors.white)
                       : Theme.of(context).textTheme.bodyMedium,

@@ -74,7 +74,7 @@ class _ProfileState extends State<Profile> {
                     );
                   },
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 25),
                 Text(
                   "Account Settings",
                   style: Theme.of(context).textTheme.bodyMedium,

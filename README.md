@@ -9,6 +9,7 @@ Elevate is a secure chat app that prioritizes your privacy and data security. Sa
 [![Badge](https://img.shields.io/github/forks/sauciucrazvan/elevate?style=for-the-badge)](https://github.com/sauciucrazvan/elevate/forks)
 [![Badge](https://img.shields.io/github/stars/sauciucrazvan/elevate?style=for-the-badge)](https://github.com/sauciucrazvan/elevate/stargazers)
 [![Badge](https://img.shields.io/github/issues/sauciucrazvan/elevate?style=for-the-badge)](https://github.com/sauciucrazvan/elevate/issues)
+[![Badge](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ## Table of Contents
 - [Releases](https://github.com/sauciucrazvan/elevate/releases)

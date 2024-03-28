@@ -11,6 +11,8 @@ Elevate is a secure chat app that prioritizes your privacy and data security. Sa
 [![Badge](https://img.shields.io/github/issues/sauciucrazvan/elevate?style=for-the-badge)](https://github.com/sauciucrazvan/elevate/issues)
 [![Badge](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
+> Elevate is discontinued as of March 28, 2024. It can still be used, even though it is not recommended. The source code will still be accesible, however there will not be any other updates.
+
 ## Table of Contents
 - [Releases](https://github.com/sauciucrazvan/elevate/releases)
 - [Features](#features)
